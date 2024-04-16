@@ -1,0 +1,83 @@
+<!-- header section starts -->
+
+<header class="header" th:fragment="header">
+
+    <a href="#" class="logo"> <i class="fas fa-mug-hot"></i> coffee</a>
+
+    <nav class="navbar">
+        <a th:href="@{/home}" class="active">home</a>
+        <a th:href="@{/about}">about</a>
+        <a th:href="@{/menu}">menu</a>
+        <a th:href="@{/blog}">blogs</a>
+        <a th:href="@{/contact}">contact</a>
+    </nav>
+
+    <div class="icons">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-search" id="search-btn"></div>
+        <div class="fas fa-shopping-cart" id="cart-btn"></div>
+        <div class="fas fa-user" id="login-btn"></div>
+    </div>
+
+    <form action="" class="search-form">
+        <label for="search-box"></label><input type="search" name="" id="search-box" placeholder="search here..">
+        <label class="fas fa-search"></label>
+    </form>
+
+    <!-- shopping cart -->
+
+    <div class="shopping-cart">
+
+        <div class="box">
+            <i class="fas fa-trash"></i>
+            <img th:src="@{../user/images/cart-1.png}" alt="">
+            <div class="content">
+                <h3>mocha magic</h3>
+                <span class="price">$34.99/=</span>
+                <span class="quantity"> qty: 1</span>
+            </div>
+        </div>
+
+        <div class="box">
+            <i class="fas fa-trash"></i>
+            <img th:src="@{../user/images/cart-2.png}" alt="">
+            <div class="content">
+                <h3>mocha magic</h3>
+                <span class="price">$34.99/=</span>
+                <span class="quantity"> qty: 1</span>
+            </div>
+        </div>
+
+        <div class="box">
+            <i class="fas fa-trash"></i>
+            <img th:src="@{../user/images/cart-3.png}" alt="">
+            <div class="content">
+                <h3>mocha magic</h3>
+                <span class="price">$34.99/=</span>
+                <span class="quantity"> qty: 1</span>
+            </div>
+        </div>
+
+        <div class="total">total : $59.99/=</div>
+        <a href="#" class="btn">checkout</a>
+
+    </div>
+
+    <!-- login -->
+
+    <form action="" class="login-form">
+        <h3>login form</h3>
+        <label>
+            <input type="email" placeholder="Your Email" class="box">
+        </label>
+        <label>
+            <input type="password" placeholder="Your Password" class="box">
+        </label>
+        <p>forget your password <a href="#"> click here</a></p>
+        <p>don't have an account? <a href="#"> create now</a></p>
+        <input type="submit" value="login" class="btn">
+    </form>
+
+</header>
+
+<!-- header section ends -->
