@@ -20,4 +20,20 @@ public class ProductsServiceImpl implements ProductsService{
     public List<Products> getAllProduct() {
         return productsRepository.findAll();
     }
+
+    @Override
+    public void saveProduct(Products products) {
+        try {
+            if (products.getProductId() == null) {
+                products.setProductName(products.getProductName());
+                products.setDescription(products.getDescription());
+                products.setDiscount(products.getDiscount());
+                products.setQuantity(products.getQuantity());
+                products.setSellingPrice(products.getSellingPrice());
+                productsRepository.save(products);
+            }
+        } catch (Exception e) {
+            System.out.println("Error = " + e);
+        }
+    }
 }
