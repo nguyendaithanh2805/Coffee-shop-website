@@ -66,4 +66,10 @@ public class ProductsController {
         model.addAttribute("product", product);
         return "admin/update-product-form";
     }
+
+    @GetMapping("/delete-product")
+    public String deleteProduct(@RequestParam Long id) {
+        productsService.deleteProductById(id);
+        return "redirect:/admin/products-list";
+    }
 }
