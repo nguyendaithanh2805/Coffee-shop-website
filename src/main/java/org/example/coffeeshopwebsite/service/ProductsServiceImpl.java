@@ -40,4 +40,10 @@ public class ProductsServiceImpl implements ProductsService{
     public Products getProductById(Long id) {
         return productsRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found for ID :: " + id));
     }
+
+    @Override
+    public void deleteProductById(Long id) {
+        productsRepository.deleteById(id);
+        System.out.println("Deleted successfully for ID :: " + id);
+    }
 }
