@@ -4,16 +4,6 @@
 <head th:replace="~{admin/fragments/head.html :: head}">
   <title></title>
 </head>
-<style>
-  /* Set a fixed width for each column */
-  .table-striped-columns th,
-  .table-striped-columns td {
-    width: calc(100% / 7); /* Assuming there are 7 columns */
-    text-align: center; /* Center align the content within each cell */
-    overflow: hidden; /* Hide overflow content */
-    white-space: nowrap; /* Prevent wrapping of text */
-  }
-</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -57,37 +47,39 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <table class="table table-striped-columns" >
-          <thead>
+        <form th:action="@{/admin/save-product}" th:object="${product}" th:method="POST" enctype="multipart/form-data">
+          <table class="table table-striped-columns" >
             <tr>
-              <th scope="col">Product ID</th>
-              <th scope="col">Product Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Selling price</th>
-              <th scope="col">Discount</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Product Image</th>
-              <th scope="col">Action</th>
+              <td><label for="productId">Product ID:</label></td>
+              <td><input readonly class="form-control-plaintext" type="text" id="productId" name="productId" th:field="*{productId}"></td>
             </tr>
-          </thead>
-          <tbody>
-            <tr  th:each="product : ${products}">
-              <td th:text="${product.getProductId()}"></td>
-              <td th:text="${product.getProductName()}">Otto</td>
-              <td th:text="${product.getDescription()}"></td>
-              <td th:text="${product.getSellingPrice()}"></td>
-              <td th:text="${product.getDiscount()}"></td>
-              <td th:text="${product.getQuantity()}"></td>
-              <td><img th:src="@{../user/images/__${product.getProductImage()}__}" alt="" style="max-width: 50%;"></td>
-              <td>
-                <a th:href="@{/admin/edit-product(id = ${product.productId})}"><button class="btn btn-primary">Update</button> </a>
-                <a th:href="@{/admin/delete-product(id = ${product.productId})}"><button class="btn btn-danger">Delete</button> </a>
-              </td>
+            <tr>
+              <td><label for="productName">Product Name:</label></td>
+              <td><input type="text" id="productName" name="productName" th:field="*{productName}"></td>
             </tr>
-          </tbody>
-          <a th:href="@{/admin/add-product}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px;">Add a new Product</button></a>
-        </table>
-
+            <tr>
+              <td><label for="description">Description : </label></td>
+              <td><input type="text" id="description" name="description" th:field="*{description}"></td>
+            </tr>
+            <tr>
+              <td><label for="sellingPrice" th:field="*{sellingPrice}">Selling Price:</label></td>
+              <td><input type="number" id="sellingPrice" name="sellingPrice"></td>
+            </tr>
+            <tr>
+              <td><label for="discount">Discount:</label></td>
+              <td><input type="number" id="discount" name="discount" th:field="*{discount}"></td>
+            </tr>
+            <tr>
+              <td><label for="quantity">Quantity:</label></td>
+              <td><input type="number" id="quantity" name="quantity" th:field="*{quantity}"></td>
+            </tr>
+            <tr>
+              <td><label for="imageFile">Product Image:</label></td>
+              <td><input type="file" id="imageFile" name="imageFile"></td>
+            </tr>
+          </table>
+          <button class="btn btn-success" type="submit">Update Product</button>
+        </form>
       </div>
       <!-- /.container-fluid -->
     </section>
