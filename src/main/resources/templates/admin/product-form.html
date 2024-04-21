@@ -21,6 +21,70 @@
   <aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a>
+              </li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <form th:action="@{/admin/save-product}" th:object="${product}" th:method="POST" enctype="multipart/form-data">
+          <table class="table table-striped-columns" >
+            <tr>
+              <td><label for="productId">Product ID:</label></td>
+              <td><input readonly class="form-control-plaintext" type="text" id="productId" name="productId" th:field="*{productId}"></td>
+            </tr>
+            <tr>
+              <td><label for="productName">Product Name:</label></td>
+              <td><input type="text" id="productName" name="productName" th:field="*{productName}"></td>
+            </tr>
+            <tr>
+              <td><label for="description">Description : </label></td>
+              <td><input type="text" id="description" name="description" th:field="*{description}"></td>
+            </tr>
+            <tr>
+              <td><label for="sellingPrice" th:field="*{sellingPrice}">Selling Price:</label></td>
+              <td><input type="number" id="sellingPrice" name="sellingPrice"></td>
+            </tr>
+            <tr>
+              <td><label for="discount">Discount:</label></td>
+              <td><input type="number" id="discount" name="discount" th:field="*{discount}"></td>
+            </tr>
+            <tr>
+              <td><label for="quantity">Quantity:</label></td>
+              <td><input type="number" id="quantity" name="quantity" th:field="*{quantity}"></td>
+            </tr>
+            <tr>
+              <td><label for="imageFile">Product Image:</label></td>
+              <td><input type="file" id="imageFile" name="imageFile"></td>
+            </tr>
+          </table>
+          <button class="btn btn-success" type="submit">Add Product</button>
+        </form>
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
