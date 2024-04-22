@@ -1,6 +1,8 @@
 package org.example.coffeeshopwebsite.controller.admin;
 
+import org.example.coffeeshopwebsite.model.Categories;
 import org.example.coffeeshopwebsite.model.Products;
+import org.example.coffeeshopwebsite.service.CategoryService;
 import org.example.coffeeshopwebsite.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,16 +15,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
 public class ProductsController {
     private final ProductsService productsService;
 
+    private final CategoryService categoryService;
+
     @Autowired
-    public ProductsController(ProductsService productsService) {
+    public ProductsController(ProductsService productsService, CategoryService categoryService) {
         this.productsService = productsService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/products-list")
@@ -34,12 +38,15 @@ public class ProductsController {
 
     @GetMapping("/add-product")
     public String addProduct(Model model) {
+        List<Categories> categoriesList = categoryService.getAllCategory();
+        model.addAttribute("categories", categoriesList);
         model.addAttribute("product", new Products());
         return "admin/product-form";
     }
 
     @PostMapping("/save-product")
-    public String saveProduct(@ModelAttribute("product") Products products, @RequestParam("imageFile") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String saveProduct(@ModelAttribute("product") Products products, @RequestParam("imageFile") MultipartFile file, @RequestParam("category") Long catId, RedirectAttributes redirectAttributes) {
+        Categories category = categoryService.getCategoryById(catId);
         String fileName = file.getOriginalFilename();
         String uploadDir = "D:\\workspace\\java\\Coffee-shop-website\\src\\main\\resources\\static\\user\\images";
         Path uploadPath = Paths.get(uploadDir);
@@ -50,6 +57,7 @@ public class ProductsController {
             if (!(Files.exists(filePath)))
                 Files.copy(file.getInputStream(), filePath);
             products.setProductImage(fileName);
+            products.setCategories(category);
             productsService.saveProduct(products);
             redirectAttributes.addFlashAttribute("Message", "Image uploaded successfully");
         } catch (Exception e) {
