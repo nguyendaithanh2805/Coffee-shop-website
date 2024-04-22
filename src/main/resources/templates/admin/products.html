@@ -66,6 +66,7 @@
               <th scope="col">Selling price</th>
               <th scope="col">Discount</th>
               <th scope="col">Quantity</th>
+              <th scope="col">Category</th>
               <th scope="col">Product Image</th>
               <th scope="col">Action</th>
             </tr>
@@ -78,6 +79,7 @@
               <td th:text="${product.getSellingPrice()}"></td>
               <td th:text="${product.getDiscount()}"></td>
               <td th:text="${product.getQuantity()}"></td>
+              <td th:text="${product.getCategories().getCategoryName()}"></td>
               <td><img th:src="@{../user/images/__${product.getProductImage()}__}" alt="" style="max-width: 50%;"></td>
               <td>
                 <a th:href="@{/admin/edit-product(id = ${product.productId})}"><button class="btn btn-primary">Update</button> </a>
@@ -86,6 +88,7 @@
             </tr>
           </tbody>
           <a th:href="@{/admin/add-product}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px;">Add a new Product</button></a>
+          <a th:href="@{/admin/add-category}"><button class="btn btn-primary" type="submit" style="margin-bottom: 20px; margin-left: 10px">Add a new Category</button></a>
         </table>
 
       </div>
