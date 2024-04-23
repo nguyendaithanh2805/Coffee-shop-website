@@ -27,4 +27,14 @@ public class ArticlesServiceImpl implements ArtilcesService{
         articles.setDescription(articles.getDescription());
         articlesRepository.save(articles);
     }
+
+    @Override
+    public Articles getArticlesById(Long id) {
+        return articlesRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found articles by Id :: " + id));
+    }
+
+    @Override
+    public void deleteArticleById(Long id) {
+        articlesRepository.deleteById(id);
+    }
 }

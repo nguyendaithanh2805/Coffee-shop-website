@@ -25,12 +25,13 @@ public class ProductsServiceImpl implements ProductsService{
     @Override
     public void saveProduct(Products products) {
         try {
-                products.setProductName(products.getProductName());
-                products.setDescription(products.getDescription());
-                products.setDiscount(products.getDiscount());
-                products.setQuantity(products.getQuantity());
-                products.setSellingPrice(products.getSellingPrice());
-                productsRepository.save(products);
+            products.setProductName(products.getProductName());
+            products.setDescription(products.getDescription());
+            products.setDiscount(products.getDiscount());
+            products.setQuantity(products.getQuantity());
+            products.setSellingPrice(products.getSellingPrice());
+            products.setCategories(products.getCategories());
+            productsRepository.save(products);
         } catch (Exception e) {
             System.out.println("Error = " + e);
         }
