@@ -73,7 +73,7 @@
                         <td th:text="${article.getArticleId()}"></td>
                         <td th:text="${article.getArticleName()}"></td>
                         <td th:text="${article.getDescription()}"></td>
-                        <td th:text="${article.getStatus()}"></td>
+                        <td th:text="${(article.getStatus() == true) ? 'Approved' : 'Unapproved'}"></td>
                         <td><img th:src="@{../user/images/__${article.getArticleImage()}__}" alt="" style="max-width: 50%;"></td>
                         <td>
                             <a th:href="@{/admin/edit-article(id = ${article.articleId})}"><button class="btn btn-primary">Update</button> </a>
