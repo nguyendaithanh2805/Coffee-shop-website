@@ -8,9 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -20,11 +23,18 @@ public class ArticlesController {
     @Autowired
     private ArtilcesService artilcesService;
 
-    @GetMapping("/articles-list")
-    public String articlesList(Model model) {
+    @GetMapping("/unapproved-articles")
+    public String unapprovedArticles(Model model) {
         List<Articles> articlesList = artilcesService.getAllArticles();
         model.addAttribute("articles", articlesList);
-        return "admin/articles";
+        return "admin/unapproved-articles";
+    }
+
+    @GetMapping("/approved-articles")
+    public String approvedArticles(Model model) {
+        List<Articles> articlesList = artilcesService.getAllArticles();
+        model.addAttribute("articles", articlesList);
+        return "admin/approved-articles";
     }
 
     @GetMapping("/add-article")
@@ -34,7 +44,7 @@ public class ArticlesController {
     }
 
     @PostMapping("/save-article")
-    public String saveArticle(@ModelAttribute("article") Articles articles, @RequestParam("imageFile") MultipartFile file) {
+    public String saveArticle(@ModelAttribute("article") Articles articles, @RequestParam("imageFile") MultipartFile file, @RequestParam(name = "status", required = false) Boolean status) {
         String fileName = file.getOriginalFilename();
         String uploadDir = "D:\\workspace\\java\\Coffee-shop-website\\src\\main\\resources\\static\\user\\images";
         Path uploadPath = Paths.get(uploadDir);
@@ -44,11 +54,32 @@ public class ArticlesController {
 
             if (!(Files.exists(filePath)))
                 Files.copy(file.getInputStream(), filePath);
+
+            if (articles.getArticleId() == null)
+                articles.setStatus(false);
+            else
+                articles.setStatus(status);
+
             articles.setArticleImage(fileName);
             artilcesService.saveArticle(articles);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/admin/articles-list";
+        return "redirect:/admin/unapproved-articles";
+    }
+
+    @GetMapping("/edit-article")
+    public String showFormForUpdate(@RequestParam Long id, Model model) {
+        Articles articles = artilcesService.getArticlesById(id);
+        List<Boolean> statusOptions = Arrays.asList(false, true);
+        model.addAttribute("statusOptions", statusOptions);
+        model.addAttribute("article", articles);
+        return "admin/update-article-form";
+    }
+
+    @GetMapping("/delete-article")
+    public String deleteArticle(@RequestParam Long id) {
+        artilcesService.deleteArticleById(id);
+        return "redirect:/admin/unapproved-articles";
     }
 }

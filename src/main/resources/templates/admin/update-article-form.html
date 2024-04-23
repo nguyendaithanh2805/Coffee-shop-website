@@ -4,16 +4,6 @@
 <head th:replace="~{admin/fragments/head.html :: head}">
     <title></title>
 </head>
-<style>
-    /* Set a fixed width for each column */
-    .table-striped-columns th,
-    .table-striped-columns td {
-        width: calc(100% / 7); /* Assuming there are 7 columns */
-        text-align: center; /* Center align the content within each cell */
-        overflow: hidden; /* Hide overflow content */
-        white-space: nowrap; /* Prevent wrapping of text */
-    }
-</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -57,33 +47,35 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <table class="table table-striped-columns" >
-                    <thead>
-                    <tr>
-                        <th scope="col">Article ID</th>
-                        <th scope="col">Article Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Article Image</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr  th:each="artcile : ${articles}">
-                        <td th:text="${artcile.getArticleId()}"></td>
-                        <td th:text="${artcile.getArticleName()}"></td>
-                        <td th:text="${artcile.getDescription()}"></td>
-                        <td th:text="${artcile.getStatus()}"></td>
-                        <td><img th:src="@{../user/images/__${artcile.getArticleImage()}__}" alt="" style="max-width: 50%;"></td>
-                        <td>
-                            <a th:href="@{/admin/edit-article(id = ${artcile.articleId})}"><button class="btn btn-primary">Update</button> </a>
-                            <a th:href="@{/admin/delete-article(id = ${artcile.articleId})}"><button class="btn btn-danger">Delete</button> </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <a th:href="@{/admin/add-article}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px;">Add a new article</button></a>
-                </table>
-
+                <form th:action="@{/admin/save-article}" th:object="${article}" th:method="POST" enctype="multipart/form-data">
+                    <table class="table table-striped-columns" >
+                        <tr>
+                            <td><label for="articleId">Article ID : </label></td>
+                            <td><input readonly class="form-control-plaintext" type="text" id="articleId" name="articleId" th:field="*{articleId}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="articleName">Article Name : </label></td>
+                            <td><input type="text" id="articleName" name="articleName" th:field="*{articleName}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="description">Description : </label></td>
+                            <td><input type="text" id="description" name="description" th:field="*{description}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="status">Status</label></td>
+                            <td>
+                                <select class="form-control" id="status" name="status" required>
+                                    <option th:each="status : ${statusOptions}" th:value="${status}" th:text="${(status == true)? 'Approved' : 'Unapproved'}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="imageFile">Article Image : </label></td>
+                            <td><input type="file" id="imageFile" name="imageFile"></td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-success" type="submit">Update Article</button>
+                </form>
             </div>
             <!-- /.container-fluid -->
         </section>

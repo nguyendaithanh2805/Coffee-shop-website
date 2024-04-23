@@ -51,7 +51,7 @@
           <table class="table table-striped-columns" >
             <tr>
               <td><label for="productId">Product ID:</label></td>
-              <td><input readonly class="form-control-plaintext" type="text" id="productId" name="productId" th:field="*{productId}"></td>
+              <td><input type="text" id="productId" name="productId" th:value="${product.productId}" class="form-control-plaintext" readonly></td>
             </tr>
             <tr>
               <td><label for="productName">Product Name:</label></td>
@@ -72,6 +72,14 @@
             <tr>
               <td><label for="quantity">Quantity:</label></td>
               <td><input type="number" id="quantity" name="quantity" th:field="*{quantity}"></td>
+            </tr>
+            <tr>
+              <td><label for="category">Category:</label></td>
+              <td>
+                <select class="form-control" id="category" name="category" required>
+                  <option th:each="category : ${categories}" th:value="${category.catId}" th:text="${category.categoryName}"></option>
+                </select>
+              </td>
             </tr>
             <tr>
               <td><label for="imageFile">Product Image:</label></td>
