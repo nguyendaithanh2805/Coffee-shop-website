@@ -70,7 +70,9 @@ public class ProductsController {
 
     @GetMapping("/edit-product")
     public String showFormForUpdate(@RequestParam Long id, Model model) {
+        List<Categories> categoriesList = categoryService.getAllCategory();
         Products product = productsService.getProductById(id);
+        model.addAttribute("categories", categoriesList);
         model.addAttribute("product", product);
         return "admin/update-product-form";
     }
