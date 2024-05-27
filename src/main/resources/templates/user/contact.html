@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{user/fragments/head.html :: head}">
+    <title></title>
+</head>
+<body>
+
+<!-- header section starts -->
+
+<header th:replace="~{user/fragments/header.html :: header}"></header>
+
+
+<!-- header section ends -->
+
+
+<!-- sub heading -->
+
+<div class="sub-heading">
+    <h1>contact us</h1>
+</div>
+
+<!-- end -->
+
+<!-- contact us section starts -->
+
+<section class="contact">
+
+    <div class="row">
+
+        <form action="">
+            <h3>book a table</h3>
+
+            <div class="inputBox">
+                <label>
+                    <input type="text" placeholder="Enter Your Name" class="box">
+                </label>
+                <label>
+                    <input type="email" placeholder="Enter Your Email" class="box">
+                </label>
+            </div>
+
+            <div class="inputBox">
+                <label>
+                    <input type="number" placeholder="Enter Your number" class="box">
+                </label>
+                <label>
+                    <input type="number" placeholder="How Many Members" class="box">
+                </label>
+            </div>
+            <label>
+                <textarea placeholder="Your Message" cols="30" rows="10"></textarea>
+            </label>
+            <input type="submit" value="send message" class="btn">
+
+        </form>
+
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3445.9293944930487!2d-97.7546682884772!3d30.267592874706946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b50e25cd8c2d%3A0x3fa3976be9ecaa5!2sMerit%20Coffee!5e0!3m2!1sen!2s!4v1709320735877!5m2!1sen!2s" width="550" allowfullscreen="" loading="lazy" class="map"></iframe>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- contact us section ends -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- footer section starts -->
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3><i class="fas fa-mug-hot"></i> coffee</h3>
+            <a href="#" class="links"> <i class="fas fa-phone"></i> +123-456-7890</a>
+            <a href="#" class="links"> <i class="fas fa-envelope"></i> ninjashub4@gmail.com</a>
+            <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i> california, USA 43215</a>
+        </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#">my order</a>
+            <a href="#">my favorite</a>
+            <a href="#">my wishlist</a>
+            <a href="#">my account</a>
+            <a href="#">terms or use</a>
+        </div>
+
+        <div class="box">
+            <h3>useful links</h3>
+            <a href="#">menu</a>
+            <a href="#">location</a>
+            <a href="#">events & promotions</a>
+            <a href="#">FAQs</a>
+            <a href="#">contact us</a>
+        </div>
+
+        <div class="box">
+            <h3>newsletter</h3>
+            <p>subscribe for latest update</p>
+            <form action="">
+                <label>
+                    <input type="email" placeholder="enter your email">
+                </label>
+                <input type="submit" value="subscribe" class="btn">
+            </form>
+            <img th:src="@{../user/images/payment.png}" class="payment" alt="">
+        </div>
+
+    </div>
+
+    <div class="credit"> created by <span>ninjashub</span> | all rights reserved! </div>
+
+</section>
+
+<!-- footer section ends -->
+
+<script th:src="@{../user/js/script.js}"></script>
+
+</body>
+</html>
