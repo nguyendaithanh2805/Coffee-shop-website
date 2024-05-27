@@ -17,17 +17,26 @@ public class Products {
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "username", foreignKey = @ForeignKey(name = "FK_Products_Accounts"))
     private Accounts accounts;
-    
+
+    @Column(nullable = false)
     private String productName;
+
+    @Column(nullable = false)
     private String productImage;
 
     @Column(length = 100)
     private String description;
+
+    @Column(nullable = false)
     private Double sellingPrice;
     private Double discount;
+
+    @Column(nullable = false)
     private Integer quantity;
 
-    public Products() {}
+    public Products() {
+        this.discount = 0.0;
+    }
 
     public Products(Long productId, Categories categories, Accounts accounts, String productName, String productImage, String description, Double sellingPrice, Double discount, Integer quantity) {
         this.productId = productId;

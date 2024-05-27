@@ -9,44 +9,58 @@
 
 <header th:replace="~{user/fragments/header.html :: header}"></header>
 
+
 <!-- header section ends -->
+
 
 <!-- sub heading -->
 
 <div class="sub-heading">
-    <h1>our menu</h1>
+    <h1>our blog</h1>
 </div>
 
 <!-- end -->
 
-<!-- menu section starts -->
+<!-- blog section starts -->
 
-<section class="menu">
+<section class="blog">
 
     <div class="box-container">
 
-        <div class="box" th:each="product : ${products}">
+        <div class="box" th:each="blog : ${blog}" th:if="${blog.getStatus() == true}">
             <div class="image">
-                <img th:src="@{../user/images/__${product.productImage}__}" alt="">
+                <img th:src="@{../user/images/__${blog.getArticleImage()}__}" alt="">
             </div>
             <div class="content">
-                <h3 th:text="${product.getProductName()}"></h3>
-                <h5 style="font-size: 20px"> Quantity: <span style="font-size: 20px" th:text="${product.getQuantity()}"></span> </h5>
-                <div class="flex" style=" display: flex; justify-content: center; flex-direction: row-reverse; align-items: baseline">
-                    <div class="price" style="text-decoration: line-through; font-size: 15px; margin-left: 5px" th:if="${product.getDiscount() != 0.0}" th:text="${product.getSellingPrice()}"></div>
-                    <div class="price" style="color: red" th:text="${product.getSellingPrice() - product.getDiscount()}"></div>
-                </div>
-            </div>
-            <div class="icons">
-                <a href="#" class="fas fa-shopping-cart"></a>
-                <a href="#" class="fas fa-eye"></a>
+                <h3 th:text="${blog.getArticleName()}"></h3>
+                <p th:text="${blog.getDescription()}"></p>
+                <a th:href="@{/menu}" class="btn">Go to product</a>
             </div>
         </div>
 
     </div>
 
 </section>
-<!-- menu section ends -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- blog section ends -->
+
+
+
+
+
+
+
+
 
 <!-- footer section starts -->
 
@@ -88,7 +102,7 @@
                 </label>
                 <input type="submit" value="subscribe" class="btn">
             </form>
-            <img th:src="@{../user/images/payment.png}" class="payment" alt="">
+            <img th:src="@{../user/images/payment.png}" class="payment}" alt="">
         </div>
 
     </div>

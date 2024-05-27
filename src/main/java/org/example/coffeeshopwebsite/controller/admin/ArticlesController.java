@@ -80,6 +80,14 @@ public class ArticlesController {
     @GetMapping("/delete-article")
     public String deleteArticle(@RequestParam Long id) {
         artilcesService.deleteArticleById(id);
+        return "redirect:/admin/approved-articles";
+    }
+
+    @PostMapping("update-status")
+    public String updateArticleStatus(@RequestParam Long id, @RequestParam Boolean status) {
+        Articles article = artilcesService.getArticlesById(id);
+        article.setStatus(status);
+        artilcesService.saveArticle(article);
         return "redirect:/admin/unapproved-articles";
     }
 }
