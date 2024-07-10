@@ -10,4 +10,8 @@ public interface CategoryService {
     void save(Category category);
 
     Category findCategoryById(int id);
+
+    void updateCategory(Category category);
+
+    void deleteCategory(int id);
 }

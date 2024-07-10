@@ -34,4 +34,14 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findCategoryById(int id) {
         return categoryRepository.findById(id);
     }
+
+    @Override
+    public void updateCategory(Category category) {
+        categoryRepository.update(category);
+    }
+
+    @Override
+    public void deleteCategory(int id) {
+        categoryRepository.deleteById(id);
+    }
 }
