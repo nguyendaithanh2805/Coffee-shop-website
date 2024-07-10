@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void save(Category category) {
+    public void saveCategory(Category category) {
         try {
             categoryRepository.save(category);
         }catch (Exception e) {
