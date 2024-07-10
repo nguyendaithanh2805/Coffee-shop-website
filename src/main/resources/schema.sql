@@ -10,7 +10,9 @@ CREATE TABLE tbl_category (
 );
 
 CREATE TABLE tbl_product (
-    product_id			INT 			AUTO_INCREMENT,
+    product_id		INT 		    AUTO_INCREMENT,
+    category_id     INT             NOT NULL,
+    admin_id        INT             NOT NULL,
     name 			VARCHAR(100) 	NOT NULL,
     description     VARCHAR(255)	NOT NULL,
     discount		DECIMAL(10, 2)	NULL,
@@ -21,17 +23,19 @@ CREATE TABLE tbl_product (
 );
 
 CREATE TABLE tbl_order (
-    order_id         INT            AUTO_INCREMENT,
+    order_id        INT             AUTO_INCREMENT,
+    payment_id      INT             NOT NULL,
+    customer_id     INT             NOT NULL,
     order_date      DATE            NOT NULL,
-    shipping_date   DATE            NOT NULL,
-    status          VARCHAR(255)    NOT NULL ,
-    note            VARCHAR(255)   NOT NULL,
-    address         VARCHAR(255)   NOT NULL,
+    delivery_date   DATE            NOT NULL,
+    status          BOOLEAN         NOT NULL ,
+    note            VARCHAR(255)    NOT NULL,
+    address         VARCHAR(255)    NOT NULL,
     CONSTRAINT PK_tbl_order PRIMARY KEY (order_id)
 );
 CREATE TABLE tbl_payment (
     payment_id      INT             AUTO_INCREMENT,
-    payment_name    VARCHAR(255)    NOT NULL,
+    name            VARCHAR(255)    NOT NULL,
     status          BOOLEAN         NOT NULL,
     CONSTRAINT PK_tbl_payment PRIMARY KEY (payment_id)
 );
@@ -41,12 +45,13 @@ CREATE TABLE tbl_order_detail (
     order_id        INT             NOT NULL,
     discount        DECIMAL(5, 2)   NOT NULL,
     quantity        INT             NOT NULL,
-    selling_price   DECIMAL(10, 2)  NOT NULL,
+    total_bill      DECIMAL(10, 2)  NOT NULL,
     CONSTRAINT PK_tbl_order_detail PRIMARY KEY (product_id, order_id)
 );
 
 CREATE TABLE tbl_cart (
     cart_id     INT     NOT NULL,
+    customer_id INT     NOT NULL,
     CONSTRAINT PK_tbl_cart primary key (cart_id)
 );
 
@@ -59,8 +64,10 @@ CREATE TABLE tbl_cart_item (
 
 CREATE TABLE tbl_admin (
     admin_id         INT            AUTO_INCREMENT,
+    role_id          INT            NOT NULL,
     username        VARCHAR(255)    NOT NULL UNIQUE,
     password        VARCHAR(255)    NOT NULL,
+    email           VARCHAR(255)    NOT NULL,
     CONSTRAINT PK_tbl_admin PRIMARY KEY (admin_id)
 );
 
@@ -79,9 +86,57 @@ CREATE TABLE tbl_role (
  );
 
  CREATE TABLE tbl_article (
-     article_id     INT         AUTO_INCREMENT,
+     article_id     INT                 AUTO_INCREMENT,
+     admin_id      INT                  NOT NULL,
      name           VARCHAR(100)        NOT NULL,
      description    VARCHAR(255)        NOT NULL,
      CONSTRAINT PK_tbl_article  PRIMARY KEY (article_id)
  );
 -- 3. RELATIONSHIP
+---- FOREIGN KEY OF THE 'tbl_product'.
+------ The foreign key of the 'tbl_product' references the 'category_id' column of the 'tbl_category'.
+ALTER TABLE tbl_product
+    ADD CONSTRAINT FK_tbl_product_tbl_category FOREIGN KEY (category_id) REFERENCES tbl_category (category_id);
+------ The foreign key of the 'tbl_product' references the 'admin_id' column of the 'tbl_admin'.
+ALTER TABLE tbl_product
+    ADD CONSTRAINT FK_tbl_product_tbl_admin FOREIGN KEY (admin_id) REFERENCES tbl_admin (admin_id);
+
+---- FOREIGN KEY OF THE 'tbl_order_detail'.
+------ The foreign key of the 'tbl_order_detail' references the 'order_id' column of the 'tbl_order'.
+ALTER TABLE tbl_order_detail
+    ADD CONSTRAINT FK_tbl_order_detail_tbl_oder FOREIGN KEY (order_id) REFERENCES tbl_order (order_id);
+------ The foreign key of the 'tbl_order_detail' references the 'product_id' column of the 'tbl_product'.
+ALTER TABLE tbl_order_detail
+    ADD CONSTRAINT FK_tbl_order_detail_tbl_product FOREIGN KEY (product_id) REFERENCES tbl_product (product_id);
+
+---- FOREIGN KEY OF THE 'tbl_order'.
+------ The foreign key of the 'tbl_order' references the 'payment_id' column of the 'tbl_payment'.
+ALTER TABLE tbl_order
+    ADD CONSTRAINT FK_tbl_order_tbl_payment FOREIGN KEY (payment_id) REFERENCES tbl_payment (payment_id);
+------ The foreign key of the 'tbl_order' references the 'customer_id' column of the 'tbl_customer'.
+ALTER TABLE tbl_order
+    ADD CONSTRAINT FK_tbl_order_tbl_customer FOREIGN KEY (customer_id) REFERENCES tbl_customer (customer_id);
+
+---- FOREIGN KEY OF THE 'tbl_cart_item'.
+------ The foreign key of the 'tbl_cart_item' references the 'product_id' column of the 'tbl_product'.
+ALTER TABLE tbl_cart_item
+    ADD CONSTRAINT FK_tbl_cart_item_tbl_product FOREIGN KEY (product_id) REFERENCES tbl_product (product_id);
+------ The foreign key of the 'tbl_cart_item' references the 'cart_id' column of the 'tbl_cart'.
+ALTER TABLE tbl_cart_item
+    ADD CONSTRAINT FK_tbl_cart_item_tbl_cart FOREIGN KEY (cart_id) REFERENCES tbl_cart (cart_id);
+
+---- FOREIGN KEY OF THE 'tbl_cart'.
+------ The foreign key of the 'tbl_cart_item' references the 'customer_id' column of the 'tbl_customer'.
+ALTER TABLE tbl_cart
+    ADD CONSTRAINT FK_tbl_cart_tbl_customer FOREIGN KEY (customer_id) REFERENCES tbl_customer (customer_id);
+
+---- FOREIGN KEY OF THE 'tbl_admin'.
+------ The foreign key of the 'tbl_admin' references the 'role_id' column of the 'tbl_role'.
+ALTER TABLE tbl_admin
+    ADD CONSTRAINT FK_tbl_admin_tbl_role FOREIGN KEY (role_id) REFERENCES tbl_role (role_id);
+
+---- FOREIGN KEY OF THE 'tbl_article'.
+------ The foreign key of the 'tbl_admin' references the 'admin_id' column of the 'tbl_admin'.
+ALTER TABLE tbl_article
+    ADD CONSTRAINT FK_tbl_article_tbl_admin FOREIGN KEY (admin_id) REFERENCES tbl_admin (admin_id);
+
