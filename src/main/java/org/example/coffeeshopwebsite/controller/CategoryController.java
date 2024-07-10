@@ -3,12 +3,14 @@ package org.example.coffeeshopwebsite.controller;
 import org.example.coffeeshopwebsite.model.Category;
 import org.example.coffeeshopwebsite.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/categories")
@@ -41,6 +43,22 @@ public class CategoryController {
     }
 
     // UPDATE
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable int id, Model model) {
+        model.addAttribute("category", categoryService.findCategoryById(id));
+        return "admin/edit-category";
+    }
 
+    @PostMapping("/edit/{id}")
+    public String editCategory(@PathVariable int id, Category category) {
+        category.setCategoryId(id);
+        categoryService.updateCategory(category);
+        return "redirect:/categories";
+    }
     // DELETE
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable int id) {
+        categoryService.deleteCategory(id);
+        return "redirect:/categories";
+    }
 }
