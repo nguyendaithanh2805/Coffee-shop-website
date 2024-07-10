@@ -1,26 +1,28 @@
 package org.example.coffeeshopwebsite.controller;
 
+import org.example.coffeeshopwebsite.model.Category;
 import org.example.coffeeshopwebsite.model.Product;
 import org.example.coffeeshopwebsite.service.CategoryService;
+import org.example.coffeeshopwebsite.service.FileUploadService;
 import org.example.coffeeshopwebsite.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
+    private final FileUploadService fileUploadService;
     private final ProductService productService;
     private final CategoryService categoryService;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(FileUploadService fileUploadService, ProductService productService, CategoryService categoryService) {
+        this.fileUploadService = fileUploadService;
         this.productService = productService;
         this.categoryService = categoryService;
     }
@@ -47,7 +49,9 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(Product product) {
+    public String addProduct(Product product, @ModelAttribute("categoryId") int categoryId, @RequestParam("imageFile") MultipartFile file) {
+        product.setCategoryId(categoryId);
+        fileUploadService.handleImageUpload(product, file);
         productService.saveProduct(product);
         return "redirect:/products";
     }
@@ -61,8 +65,10 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable int id, Product product) {
+    public String editProduct(@PathVariable int id, Product product, @ModelAttribute("categoryId") int categoryId, @RequestParam("imageFile") MultipartFile file) {
         product.setProductId(id);
+        product.setCategoryId(categoryId);
+        fileUploadService.handleImageUpload(product, file);
         productService.updateProduct(product);
         return "redirect:/products";
     }
