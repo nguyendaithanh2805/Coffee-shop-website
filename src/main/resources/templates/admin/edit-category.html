@@ -48,29 +48,18 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6">
-                        <table class="table table-striped-columns" >
-                            <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="category : ${categories}">
-                                <td th:text="${category.getCategoryId()}"></td>
-                                <td th:text="${category.getName()}"></td>
-                                <td>
-                                    <a th:href="@{/categories/edit/{id}(id=${category.categoryId})}"><button class="btn btn-primary">Update</button> </a>
-                                    <a th:href="@{/categories/delete/{id}(id=${category.categoryId})}"><button class="btn btn-danger">Delete</button> </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <a th:href="@{/categories/add}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px; margin-left: 10px">Add a new category</button></a>
-                        <a th:href="@{/products}"><button class="btn btn-primary" type="submit" style="margin-bottom: 20px; margin-left: 10px">Go to products list</button></a>
-                    </div>
+                    <form th:action="@{/categories/edit/{id}(id=${category.categoryId})}" th:object="${category}" th:method="POST">
+                        <div class="col-md-6">
+                            <table class="table table-striped-columns" >
+                                <tr>
+                                    <td><label for="productName">Category Name:</label></td>
+                                    <td><input type="text" id="productName" name="productName" th:field="*{name}" required></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <button class="btn btn-success" type="submit">Update category</button>
+                        <button class="btn btn-primary">Go to categories</button>
+                    </form>
                 </div>
             </div>
             <!-- /.container-fluid -->
@@ -95,4 +84,5 @@
 
 <div th:replace="~{admin/fragments/script.html :: scripts}"></div>
 </body>
+
 </html>
