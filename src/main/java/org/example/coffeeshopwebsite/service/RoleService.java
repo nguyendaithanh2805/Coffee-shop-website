@@ -1,4 +1,4 @@
-package org.example.coffeeshopwebsite.repository;
+package org.example.coffeeshopwebsite.service;
 
 import org.example.coffeeshopwebsite.model.User;
 

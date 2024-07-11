@@ -1,6 +1,7 @@
-package org.example.coffeeshopwebsite.repository;
+package org.example.coffeeshopwebsite.service;
 
 import org.example.coffeeshopwebsite.model.User;
+import org.example.coffeeshopwebsite.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
