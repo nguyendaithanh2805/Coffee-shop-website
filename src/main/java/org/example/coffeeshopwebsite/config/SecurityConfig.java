@@ -15,6 +15,12 @@ public class SecurityConfig{
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -24,8 +30,8 @@ public class SecurityConfig{
                                 "/admin/js/**", "/admin/images/**", "/user/css/**",
                                 "/user/js/**", "/user/images/**", "/home",
                                 "/menu", "/about", "/blog", "/contact").permitAll()
-                        .requestMatchers("/cart-add").hasAuthority("USER")
-                        .requestMatchers("/admin", "/admin/**"/*, "/admin/css/**", "/admin/js/**", "/admin/images/**"*/).hasAuthority("ADMIN")
+                        .requestMatchers("/cart-add").hasAuthority("ROLE_USER")
+                        .requestMatchers("/admin", "/admin/**"/*, "/admin/css/**", "/admin/js/**", "/admin/images/**"*/).hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -33,6 +39,7 @@ public class SecurityConfig{
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
+                        .successHandler(customAuthenticationSuccessHandler())
                         .failureUrl("/login?error")
                 )
                 .logout(logout -> logout
