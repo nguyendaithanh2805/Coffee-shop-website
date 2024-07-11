@@ -15,13 +15,10 @@ import java.util.List;
 public class JdbcUserRepository implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
-
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder) {
         this.jdbcTemplate = jdbcTemplate;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
     }
 
     private static final class UserRowMapper implements RowMapper<User> {
@@ -29,7 +26,8 @@ public class JdbcUserRepository implements UserRepository {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
-            user.setUserId(rs.getInt("id"));
+            user.setUserId(rs.getInt("user_id"));
+            user.setUserId(rs.getInt("role_id"));
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             return user;
@@ -63,7 +61,7 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User findByUserName(String username) {
-        return jdbcTemplate.queryForObject("SELECT * FROM tbl_user WHERE username =?", new UserRowMapper(), username);
+        return jdbcTemplate.queryForObject("SELECT * FROM tbl_user WHERE username = ?", new UserRowMapper(), username);
     }
 
     private String encodePassword(User user) {
