@@ -10,16 +10,15 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class JdbcUserRepository implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserRepositoryImpl(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
@@ -49,8 +48,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public int save(User user) {
         checkExistsUser(user);
-        int roleId = roleRepository.saveRole(user);
-        return jdbcTemplate.update("INSERT INTO tbl_user (role_id, username, password) VALUES (?, ?, ?)", roleId, user.getUsername(), encodePassword(user));
+        return jdbcTemplate.update("INSERT INTO tbl_user (role_id, username, password) VALUES (?, ?, ?)", user.getRoleId(), user.getUsername(), encodePassword(user));
     }
 
     @Override

@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class ProductRepositoryImpl implements ProductRepository {
+public class JdbcProductRepository implements ProductRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ProductRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public JdbcProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
     private static final class ProductRowMapper implements RowMapper<Product> {

@@ -12,11 +12,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class RoleRepositoryImpl implements RoleRepository {
+public class JdbcRoleRepository implements RoleRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public RoleRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public JdbcRoleRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
     private final static class RoleRowMapper implements RowMapper<Role> {
