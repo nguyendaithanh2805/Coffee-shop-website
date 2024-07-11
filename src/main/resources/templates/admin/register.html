@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{admin/fragments/head.html :: head}">
+    <title></title>
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>Admin</b>LTE</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Register a new membership</p>
+
+            <form th:action="@{/register/add}" th:object="${user}" th:method="POST">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="username" name="username" th:field="*{username}">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="password" name="password" th:field="*{password}">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-danger btn-block">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+            </form>
+            <div class="social-auth-links text-center mb-3">
+                <p>- OR -</p>
+                <a th:href="@{/login}" class="btn btn-block btn-primary">
+                    Sign In
+                </a>
+            </div>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
+
+<div th:replace="~{admin/fragments/script.html :: scripts}"></div>
+</body>
+</html>

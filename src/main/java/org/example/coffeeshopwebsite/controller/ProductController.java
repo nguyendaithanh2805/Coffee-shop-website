@@ -1,6 +1,5 @@
 package org.example.coffeeshopwebsite.controller;
 
-import org.example.coffeeshopwebsite.model.Category;
 import org.example.coffeeshopwebsite.model.Product;
 import org.example.coffeeshopwebsite.service.CategoryService;
 import org.example.coffeeshopwebsite.service.FileUploadService;
@@ -14,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/admin/products")
 public class ProductController {
     private final FileUploadService fileUploadService;
     private final ProductService productService;
