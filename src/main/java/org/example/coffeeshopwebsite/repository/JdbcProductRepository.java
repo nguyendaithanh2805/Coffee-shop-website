@@ -25,7 +25,7 @@ public class JdbcProductRepository implements ProductRepository {
             Product product = new Product();
             product.setProductId(rs.getInt("product_id"));
             product.setCategoryId(rs.getInt("category_id"));
-            product.setAdminId(rs.getInt("admin_id"));
+            product.setUserId(rs.getInt("user_id"));
             product.setName(rs.getString("name"));
             product.setDescription(rs.getString("description"));
             product.setDiscount(rs.getBigDecimal("discount"));
@@ -48,8 +48,8 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int save(Product product) {
-        return jdbcTemplate.update("INSERT INTO tbl_product (category_id, admin_id, name, description, discount, image, quantity, selling_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                product.getCategoryId(), product.getAdminId(),
+        return jdbcTemplate.update("INSERT INTO tbl_product (category_id, user_id, name, description, discount, image, quantity, selling_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                product.getCategoryId(), product.getUserId(),
                 product.getName(), product.getDescription(),
                 product.getDiscount(), product.getImage(),
                 product.getQuantity(), product.getSellingPrice());
@@ -57,9 +57,9 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int update(Product product) {
-        return jdbcTemplate.update("UPDATE tbl_product SET category_id = ?, admin_id = ?, name = ?, description = ?, discount = ?, image = ?, quantity = ?, selling_price = ?" +
+        return jdbcTemplate.update("UPDATE tbl_product SET category_id = ?, user_id = ?, name = ?, description = ?, discount = ?, image = ?, quantity = ?, selling_price = ?" +
                 "WHERE product_id = ?",
-                product.getCategoryId(), product.getAdminId(),
+                product.getCategoryId(), product.getUserId(),
                 product.getName(), product.getDescription(),
                 product.getDiscount(), product.getImage(),
                 product.getQuantity(), product.getSellingPrice(), product.getProductId());
