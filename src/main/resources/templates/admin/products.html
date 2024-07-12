@@ -80,13 +80,13 @@
                         <td th:text="${categoryName[index]}"></td>
                         <td><img th:src="@{../user/images/__${product.getImage()}__}" alt="" style="max-width: 50%;"></td>
                         <td>
-                            <a th:href="@{/products/edit/{id}(id = ${product.productId})}"><button class="btn btn-primary">Update</button> </a>
-                            <a th:href="@{/products/delete/{id}(id = ${product.productId})}"><button class="btn btn-danger">Delete</button> </a>
+                            <a th:href="@{/admin/products/edit/{id}(id = ${product.productId})}"><button class="btn btn-primary">Update</button> </a>
+                            <a th:href="@{/admin/products/delete/{id}(id = ${product.productId})}"><button class="btn btn-danger">Delete</button> </a>
                         </td>
                     </tr>
                     </tbody>
-                    <a th:href="@{/products/add}"><button class="btn btn-primary" type="submit" style="margin-bottom: 20px;">Add a new Product</button></a>
-                    <a th:href="@{/categories}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px; margin-left: 10px">Go to Categories list</button></a>
+                    <a th:href="@{/admin/products/add}"><button class="btn btn-primary" type="submit" style="margin-bottom: 20px;">Add a new Product</button></a>
+                    <a th:href="@{/admin/categories}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px; margin-left: 10px">Go to Categories list</button></a>
                 </table>
 
             </div>

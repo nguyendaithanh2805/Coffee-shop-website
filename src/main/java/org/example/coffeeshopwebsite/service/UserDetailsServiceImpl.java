@@ -16,28 +16,27 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username);
-        if (user == null)
-            throw new UsernameNotFoundException("Username not found");
+        User user = userRepository.findByUsername(username);
+        if(user == null)
+            throw new UsernameNotFoundException("username not found");
         Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        List<Role> roles = roleRepository.getUserRole();
-        for (Role role : roles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        String role = roleRepository.getRoleByUsername(username).getName();
+        grantedAuthorities.add(new SimpleGrantedAuthority(role));
         return new CustomUserDetails(user, grantedAuthorities);
     }
 }

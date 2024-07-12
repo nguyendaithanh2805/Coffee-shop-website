@@ -37,7 +37,7 @@ public class CategoryController {
     @PostMapping("/add")
     public String addCategory(Category category) {
         categoryService.saveCategory(category);
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
     }
 
     // UPDATE
@@ -51,12 +51,12 @@ public class CategoryController {
     public String editCategory(@PathVariable int id, Category category) {
         category.setCategoryId(id);
         categoryService.updateCategory(category);
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
     }
     // DELETE
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable int id) {
         categoryService.deleteCategory(id);
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
     }
 }

@@ -64,7 +64,7 @@ CREATE TABLE tbl_cart_item (
 
 CREATE TABLE tbl_admin (
     user_id          INT            NOT NULL,
-    full_name        VARCHAR(100)   NOT NULL,
+    full_name        VARCHAR(100)   NULL,
     CONSTRAINT PK_tbl_admin PRIMARY KEY (user_id)
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE tbl_role (
 
 CREATE TABLE tbl_customer (
     user_id         INT              NOT NULL,
-    full_name       VARCHAR(100)     NOT NULL,
+    full_name       VARCHAR(100)     NULL,
     CONSTRAINT PK_tbl_customer PRIMARY KEY (user_id)
 );
 
