@@ -47,7 +47,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <form th:action="@{/products/add}" th:object="${product}" th:method="POST" enctype="multipart/form-data">
+                <form th:action="@{/admin/products/add}" th:object="${product}" th:method="POST" enctype="multipart/form-data">
                     <table class="table table-striped-columns" >
                         <tr>
                             <td><label for="productName">Product Name:</label></td>
@@ -113,7 +113,7 @@
 <!-- Tao js de dieu huong den trang categories vi neu su dung the <a> truc tiep thi field name se yeu cau khong duoc bo trong-->
 <script th:inline="javascript">
     function redirectToCategories() {
-        window.location.href = '/categories';
+        window.location.href = '/admin/categories';
     }
 </script>
 <div th:replace="~{admin/fragments/script.html :: scripts}"></div>
