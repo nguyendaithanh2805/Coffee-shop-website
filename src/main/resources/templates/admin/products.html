@@ -70,14 +70,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr  th:each="product, index: ${products}">
+                    <tr  th:each="product, iterStat : ${products}">
                         <td th:text="${product.getProductId()}"></td>
                         <td th:text="${product.getName()}">Otto</td>
                         <td th:text="${product.getDescription()}"></td>
                         <td th:text="${product.getSellingPrice()}"></td>
                         <td th:text="${product.getDiscount()}"></td>
                         <td th:text="${product.getQuantity()}"></td>
-                        <td th:text="${categoryName[index]}"></td>
+                        <td th:text="${categoryName[iterStat.index]}"></td>
                         <td><img th:src="@{../user/images/__${product.getImage()}__}" alt="" style="max-width: 50%;"></td>
                         <td>
                             <a th:href="@{/admin/products/edit/{id}(id = ${product.productId})}"><button class="btn btn-primary">Update</button> </a>
