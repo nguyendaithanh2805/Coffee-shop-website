@@ -1,6 +1,7 @@
 package org.example.coffeeshopwebsite.service;
 
 import org.example.coffeeshopwebsite.model.Product;
+import org.example.coffeeshopwebsite.model.User;
 import org.example.coffeeshopwebsite.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void saveProduct(Product product) {
+    public void saveProduct(Product product, User user) {
         try {
+            product.setUserId(user.getUserId());
             productRepository.save(product);
         } catch (Exception e) {
             System.out.println("e = " + e);
