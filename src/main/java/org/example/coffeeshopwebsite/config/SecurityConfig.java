@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,16 +23,23 @@ public class SecurityConfig{
     }
 
     @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return ((request, response, accessDeniedException) -> {
+            response.sendRedirect("/access-denied");
+        });
+    }
+
+    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register/**", "/admin/css/**",
+                        .requestMatchers("/login/**", "/register/**", "/admin/css/**",
                                 "/admin/js/**", "/admin/images/**", "/user/css/**",
                                 "/user/js/**", "/user/images/**", "/home",
                                 "/menu", "/about", "/blog", "/contact").permitAll()
-                        .requestMatchers("/cart-add").hasAuthority("ROLE_USER")
-                        .requestMatchers("/admin", "/admin/**"/*, "/admin/css/**", "/admin/js/**", "/admin/images/**"*/).hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/cart/add").hasAuthority("ROLE_USER")
+                        .requestMatchers("/admin", "/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -45,7 +53,8 @@ public class SecurityConfig{
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
-                );
+                )
+                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler()));
         return httpSecurity.build();
     }
 }
