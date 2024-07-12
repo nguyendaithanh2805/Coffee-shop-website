@@ -1,9 +1,11 @@
 package org.example.coffeeshopwebsite.controller;
 
 import org.example.coffeeshopwebsite.model.Product;
+import org.example.coffeeshopwebsite.model.User;
 import org.example.coffeeshopwebsite.service.CategoryService;
 import org.example.coffeeshopwebsite.service.FileUploadService;
 import org.example.coffeeshopwebsite.service.ProductService;
+import org.example.coffeeshopwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +20,14 @@ public class ProductController {
     private final FileUploadService fileUploadService;
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @Autowired
-    public ProductController(FileUploadService fileUploadService, ProductService productService, CategoryService categoryService) {
+    public ProductController(FileUploadService fileUploadService, ProductService productService, CategoryService categoryService, UserService userService) {
         this.fileUploadService = fileUploadService;
         this.productService = productService;
         this.categoryService = categoryService;
+        this.userService = userService;
     }
 
     // READ
@@ -51,8 +55,9 @@ public class ProductController {
     public String addProduct(Product product, @ModelAttribute("categoryId") int categoryId, @RequestParam("imageFile") MultipartFile file) {
         product.setCategoryId(categoryId);
         fileUploadService.handleImageUpload(product, file);
-        productService.saveProduct(product);
-        return "redirect:/products";
+        User user = userService.getCurrentUser();
+        productService.saveProduct(product, user);
+        return "redirect:/admin/products";
     }
 
     // UPDATE
@@ -69,13 +74,13 @@ public class ProductController {
         product.setCategoryId(categoryId);
         fileUploadService.handleImageUpload(product, file);
         productService.updateProduct(product);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     // DELETE
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 }
