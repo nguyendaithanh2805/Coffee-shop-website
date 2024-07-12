@@ -2,7 +2,6 @@ package org.example.coffeeshopwebsite.controller;
 
 import org.example.coffeeshopwebsite.model.User;
 import org.example.coffeeshopwebsite.service.AdminService;
-import org.example.coffeeshopwebsite.service.RoleService;
 import org.example.coffeeshopwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/register")
 public class RegisterController {
     private final UserService userService;
-    private final RoleService roleService;
     private final AdminService adminService;
 
     @Autowired
-    public RegisterController(UserService userService, RoleService roleService, AdminService adminService) {
+    public RegisterController(UserService userService, AdminService adminService) {
         this.userService = userService;
-        this.roleService = roleService;
         this.adminService = adminService;
     }
 
@@ -35,8 +32,7 @@ public class RegisterController {
     public String addUser(User user, Model model) {
         try
         {
-            int roleId = roleService.addRole(user);
-            userService.addUser(user, roleId);
+            userService.addUser(user);
             adminService.addAdmin(user);
             return "redirect:/login";
         } catch (IllegalArgumentException e) {
