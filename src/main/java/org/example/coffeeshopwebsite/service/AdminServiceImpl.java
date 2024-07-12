@@ -26,7 +26,7 @@ public class AdminServiceImpl implements AdminService {
             String checkAdmin = adminRepository.findByName(getUserId);
             if (checkAdmin.equalsIgnoreCase("admin")) {
                 admin.setUserId(getUserId);
-                admin.setFullName("");
+                admin.setFullName("ADMIN");
                 adminRepository.save(admin);
                 logger.info("Save admin successfully with userId " + getUserId);
             }

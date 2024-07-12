@@ -20,10 +20,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user, int roleId) {
-            user.setRoleId(roleId);
-            userRepository.save(user);
-            logger.info("Save user successfully");
+    public void addUser(User user) {
+        if (user.getUsername().equalsIgnoreCase("ADMIN"))
+            user.setRoleId(1);
+        else
+            user.setRoleId(2);
+        userRepository.save(user);
+        logger.info("Save user successfully");
     }
 
     @Override
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
-            return userRepository.findByUserName(username);
+            return userRepository.findByUsername(username);
         }
         return null;
     }
