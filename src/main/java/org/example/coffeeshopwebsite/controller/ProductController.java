@@ -72,15 +72,16 @@ public class ProductController {
     public String editProduct(@PathVariable int id, Product product, @ModelAttribute("categoryId") int categoryId, @RequestParam("imageFile") MultipartFile file) {
         product.setProductId(id);
         product.setCategoryId(categoryId);
+        User user = userService.getCurrentUser();
         fileUploadService.handleImageUpload(product, file);
-        productService.updateProduct(product);
+        productService.updateProduct(product, user);
         return "redirect:/admin/products";
     }
 
     // DELETE
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id) {
-        productService.deleteProduct(id);
+        productService.deleteProductById(id);
         return "redirect:/admin/products";
     }
 }

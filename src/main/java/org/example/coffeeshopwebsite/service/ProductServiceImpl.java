@@ -3,6 +3,8 @@ package org.example.coffeeshopwebsite.service;
 import org.example.coffeeshopwebsite.model.Product;
 import org.example.coffeeshopwebsite.model.User;
 import org.example.coffeeshopwebsite.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final ProductRepository productRepository;
 
     @Autowired
@@ -27,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             product.setUserId(user.getUserId());
             productRepository.save(product);
+            logger.info("Save product successfully");
         } catch (Exception e) {
             System.out.println("e = " + e);
         }
@@ -38,12 +42,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product, User user) {
+        product.setUserId(user.getUserId());
         productRepository.update(product);
+        logger.info("Update product successfully");
     }
 
     @Override
-    public void deleteProduct(int id) {
-
+    public void deleteProductById(int id) {
+        productRepository.deleteById(id);
+        logger.info("Delete product successfully");
     }
 }

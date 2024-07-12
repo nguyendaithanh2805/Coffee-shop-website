@@ -12,7 +12,7 @@ public interface ProductService {
 
     Product findProductById(int id);
 
-    void updateProduct(Product product);
+    void updateProduct(Product product, User user);
 
-    void deleteProduct(int id);
+    void deleteProductById(int id);
 }
