@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 @Repository
 public class JdbcUserRepository implements UserRepository {
@@ -33,15 +32,6 @@ public class JdbcUserRepository implements UserRepository {
             return user;
         }
     }
-    @Override
-    public List<User> findAll() {
-        return jdbcTemplate.query("SELECT * FROM tbl_user", new UserRowMapper());
-    }
-
-    @Override
-    public User findById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM tbl_user WHERE user_id = ?", new UserRowMapper(), id);
-    }
 
     @Override
     public int save(User user) {
@@ -55,12 +45,7 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public int deleteById(int id) {
-        return jdbcTemplate.update("DELETE FROM tbl_user WHERE user_id = ?", id);
-    }
-
-    @Override
-    public User findByUserName(String username) {
+    public User findByUsername(String username) {
         return jdbcTemplate.queryForObject("SELECT * FROM tbl_user WHERE username = ?", new UserRowMapper(), username);
     }
 
