@@ -2,7 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{admin/fragments/head.html :: head}">
-    <title></title>
+    <title>Categories</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var error = /*[[${error}]]*/ 'null';
+            if (error !== 'null') {
+                alert(error);
+            }
+        });
+    </script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

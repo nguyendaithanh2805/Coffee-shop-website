@@ -1,6 +1,7 @@
 package org.example.coffeeshopwebsite.repository;
 
 import org.example.coffeeshopwebsite.model.Product;
+import org.example.coffeeshopwebsite.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -57,8 +58,7 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int update(Product product) {
-        return jdbcTemplate.update("UPDATE tbl_product SET category_id = ?, user_id = ?, name = ?, description = ?, discount = ?, image = ?, quantity = ?, selling_price = ?" +
-                "WHERE product_id = ?",
+        return jdbcTemplate.update("UPDATE tbl_product SET category_id = ?, user_id = ?, name = ?, description = ?, discount = ?, image = ?, quantity = ?, selling_price = ? WHERE product_id = ?",
                 product.getCategoryId(), product.getUserId(),
                 product.getName(), product.getDescription(),
                 product.getDiscount(), product.getImage(),

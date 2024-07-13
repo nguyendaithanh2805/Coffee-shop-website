@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/categories")
@@ -55,8 +56,13 @@ public class CategoryController {
     }
     // DELETE
     @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable int id) {
-        categoryService.deleteCategory(id);
-        return "redirect:/admin/categories";
+    public String deleteCategory(@PathVariable int id, RedirectAttributes redirectAttributes) {
+        try {
+            categoryService.deleteCategoryById(id);
+            return "redirect:/admin/categories";
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", "Cannot delete or update Category because product existing");
+            return "redirect:/admin/categories";
+        }
     }
 }

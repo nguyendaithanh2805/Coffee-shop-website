@@ -76,7 +76,7 @@
                                     <button class="btn btn-primary" type="button" style="margin-bottom: 20px; margin-left: 10px" th:onclick="redirectToCategories()">Create a new category</button>
                                 </div>
                                 <div th:if="${!(#lists.isEmpty(categories))}">
-                                    <select class="form-control" id="category" name="category" required>
+                                    <select class="form-control" id="category" name="categoryId" required>
                                         <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.getName()}"></option>
                                     </select>
                                 </div>
@@ -88,7 +88,7 @@
                         </tr>
                     </table>
                     <button class="btn btn-success" type="submit">Update product</button>
-                    <button class="btn btn-primary"><a th:href="@{/admin/products}">Go to products</a></button>
+                    <a th:href="@{/admin/products}"><button class="btn btn-primary">Go to products</button></a>
                 </form>
             </div>
             <!-- /.container-fluid -->

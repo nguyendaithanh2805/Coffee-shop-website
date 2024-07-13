@@ -37,10 +37,10 @@ public class SecurityConfig{
                         .requestMatchers("/login/**", "/register/**", "/admin/css/**",
                                 "/admin/js/**", "/admin/images/**", "/user/css/**",
                                 "/user/js/**", "/user/images/**", "/home",
-                                "/menu", "/about", "/blog", "/contact").permitAll()
+                                "/menu", "/about", "/blog", "/contact", "/access-denied").permitAll()
                         .requestMatchers("/cart/add").hasAuthority("ROLE_USER")
                         .requestMatchers("/admin", "/admin/**").hasAuthority("ROLE_ADMIN")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")

@@ -5,6 +5,7 @@ import org.example.coffeeshopwebsite.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -41,7 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(int id) {
-        categoryRepository.deleteById(id);
+    public void deleteCategoryById(int id) {
+        try {
+            categoryRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can not Cannot delete or update Category because product existing");
+        }
     }
 }
