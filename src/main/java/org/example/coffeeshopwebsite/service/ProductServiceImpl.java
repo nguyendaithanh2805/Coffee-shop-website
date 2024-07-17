@@ -29,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     public void saveProduct(Product product, User user) {
         try {
             product.setUserId(user.getUserId());
+            product.setSellingPrice(product.getSellingPrice() - product.getDiscount());
             productRepository.save(product);
             logger.info("Save product successfully");
         } catch (Exception e) {
