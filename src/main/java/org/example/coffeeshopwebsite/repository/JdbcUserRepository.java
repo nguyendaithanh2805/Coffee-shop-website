@@ -26,7 +26,7 @@ public class JdbcUserRepository implements UserRepository {
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
             user.setUserId(rs.getInt("user_id"));
-            user.setUserId(rs.getInt("role_id"));
+            user.setRoleId(rs.getInt("role_id"));
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             return user;
