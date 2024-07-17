@@ -21,12 +21,12 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
