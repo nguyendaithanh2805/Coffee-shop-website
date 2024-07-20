@@ -27,8 +27,7 @@ public class JdbcCartRepository implements CartRepository {
             cart.setCartId(rs.getInt("cart_id"));
             cart.setUserId(rs.getInt("user_id"));
             cart.setProductId(rs.getInt("product_id"));
-            cart.setQuantity(rs.getInt("quantity"));
-            cart.setSellingPrice(rs.getDouble("selling_price"));
+            cart.setCartQuantity(rs.getInt("cart_quantity"));
             cart.setTotalBill(rs.getDouble("total_bill"));
 
             Product product = new Product();
@@ -48,9 +47,9 @@ public class JdbcCartRepository implements CartRepository {
 
     @Override
     public int save(Cart cart) {
-        return jdbcTemplate.update("INSERT INTO tbl_cart (user_id, product_id, quantity, selling_price, total_bill) VALUES (?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO tbl_cart (user_id, product_id, cart_quantity, total_bill) VALUES (?, ?, ?, ?)",
                 cart.getUserId(), cart.getProductId(),
-                cart.getQuantity(), cart.getSellingPrice(), cart.getTotalBill());
+                cart.getCartQuantity(), cart.getTotalBill());
     }
 
     @Override
