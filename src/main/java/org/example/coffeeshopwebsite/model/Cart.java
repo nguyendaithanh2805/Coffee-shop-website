@@ -7,17 +7,19 @@ public class Cart {
     private int quantity;
     private double sellingPrice;
     private double totalBill;
+    private Product product;
 
     public Cart() {
     }
 
-    public Cart(int cartId, int userId, int productId, int quantity, double sellingPrice, double totalBill) {
+    public Cart(int cartId, int userId, int productId, int quantity, double sellingPrice, double totalBill, Product product) {
         this.cartId = cartId;
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
         this.sellingPrice = sellingPrice;
         this.totalBill = totalBill;
+        this.product = product;
     }
 
     public int getCartId() {
@@ -66,5 +68,13 @@ public class Cart {
 
     public void setTotalBill(double totalBill) {
         this.totalBill = totalBill;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
