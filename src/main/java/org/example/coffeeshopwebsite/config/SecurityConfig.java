@@ -43,7 +43,7 @@ public class SecurityConfig{
                                 "/admin/js/**", "/admin/images/**", "/user/css/**",
                                 "/user/js/**", "/user/images/**", "/home",
                                 "/menu", "/about", "/blog", "/contact", "/access-denied").permitAll()
-                        .requestMatchers("/cart/add", "/cart/**").hasAuthority("ROLE_USER")
+                        .requestMatchers("/carts/add", "/carts/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/admin", "/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
