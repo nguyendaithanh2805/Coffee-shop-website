@@ -97,7 +97,7 @@
                                 </td>
                                 <td th:text="${cartItem.getTotalBill()}" class="total-bill" ></td>
                                 <td>
-                                    <a th:href="@{/carts/delete/{id}(id=${cartItem.cartId})}">
+                                    <a th:href="@{/carts/delete/{id}(id=${cartItem.productId})}">
                                         <button class="btn btn-danger">Delete</button>
                                     </a>
                                 </td>

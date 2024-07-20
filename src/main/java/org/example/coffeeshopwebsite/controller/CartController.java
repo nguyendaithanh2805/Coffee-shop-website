@@ -7,10 +7,7 @@ import org.example.coffeeshopwebsite.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +33,12 @@ public class CartController {
         Product product = findProductByProductIdInCart(productId);
         saveCart(cart, product, productId, quantity);
         return "redirect:/menu";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProductInCart(@PathVariable int id) {
+        cartService.deleteProductInCartById(id);
+        return "redirect:/carts";
     }
     private void saveCart(Cart cart, Product product, int productId, int quantity) {
         cartService.addProductToCart(cart, product, productId, quantity);
