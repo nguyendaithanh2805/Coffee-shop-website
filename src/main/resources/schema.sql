@@ -1,6 +1,5 @@
 -- 1. CREATE DATABASE
-DROP DATABASE IF EXISTS db_coffee;
-CREATE DATABASE db_coffee;
+CREATE DATABASE IF NOT EXISTS db_coffee;
 USE db_coffee;
 -- 2. CREATE TABLE
 CREATE TABLE tbl_category (
@@ -50,16 +49,12 @@ CREATE TABLE tbl_order_detail (
 );
 
 CREATE TABLE tbl_cart (
-    cart_id     INT     NOT NULL,
-    user_id     INT     NOT NULL,
+    cart_id         INT             AUTO_INCREMENT,
+    user_id         INT             NOT NULL,
+    product_id      INT             NOT NULL,
+    cart_quantity   INT             NOT NULL,
+    total_bill	    DECIMAL(10, 2)  NOT NULL,
     CONSTRAINT PK_tbl_cart primary key (cart_id)
-);
-
-CREATE TABLE tbl_cart_item (
-    product_id  INT     NOT NULL,
-    cart_id     INT     NOT NULL,
-    quantity    INT     NOT NULL,
-    CONSTRAINT PK_cart_item primary key (product_id, cart_id)
 );
 
 CREATE TABLE tbl_admin (
@@ -119,19 +114,21 @@ ALTER TABLE tbl_order
 ------ The foreign key of the 'tbl_order' references the 'user_id' column of the 'tbl_customer'.
 ALTER TABLE tbl_order
     ADD CONSTRAINT FK_tbl_order_tbl_customer FOREIGN KEY (user_id) REFERENCES tbl_customer (user_id);
-
----- FOREIGN KEY OF THE 'tbl_cart_item'.
------- The foreign key of the 'tbl_cart_item' references the 'product_id' column of the 'tbl_product'.
-ALTER TABLE tbl_cart_item
-    ADD CONSTRAINT FK_tbl_cart_item_tbl_product FOREIGN KEY (product_id) REFERENCES tbl_product (product_id);
------- The foreign key of the 'tbl_cart_item' references the 'cart_id' column of the 'tbl_cart'.
-ALTER TABLE tbl_cart_item
-    ADD CONSTRAINT FK_tbl_cart_item_tbl_cart FOREIGN KEY (cart_id) REFERENCES tbl_cart (cart_id);
-
 ---- FOREIGN KEY OF THE 'tbl_cart'.
------- The foreign key of the 'tbl_cart' references the 'user_id' column of the 'tbl_customer'.
+------ The foreign key of the 'tbl_cart' references the 'user_id' column of the 'tbl_user'.
 ALTER TABLE tbl_cart
-    ADD CONSTRAINT FK_tbl_cart_tbl_customer FOREIGN KEY (user_id) REFERENCES tbl_customer (user_id);
+    ADD CONSTRAINT FK_tbl_cart_tbl_user FOREIGN KEY (user_id) REFERENCES tbl_user (user_id);
+------ The foreign key of the 'tbl_cart' references the 'product_id' column of the 'tbl_product'.
+ALTER TABLE tbl_cart
+    ADD CONSTRAINT FK_tbl_cart_tbl_product FOREIGN KEY (product_id) REFERENCES tbl_product (product_id);
+--
+-- ---- FOREIGN KEY OF THE 'tbl_cart_item'.
+-- ------ The foreign key of the 'tbl_cart_item' references the 'product_id' column of the 'tbl_product'.
+-- ALTER TABLE tbl_cart_item
+--     ADD CONSTRAINT FK_tbl_cart_item_tbl_product FOREIGN KEY (product_id) REFERENCES tbl_product (product_id);
+-- ------ The foreign key of the 'tbl_cart_item' references the 'cart_id' column of the 'tbl_cart'.
+-- ALTER TABLE tbl_cart_item
+--     ADD CONSTRAINT FK_tbl_cart_item_tbl_cart FOREIGN KEY (cart_id) REFERENCES tbl_cart (cart_id);
 
 ---- FOREIGN KEY OF THE 'tbl_admin'.
 ------ The foreign key of the 'tbl_admin' references the 'user_id' column of the 'tbl_user'.
@@ -152,3 +149,4 @@ ALTER TABLE tbl_customer
 ------ The foreign key of the 'tbl_user' references the 'role_id' column of the 'tbl_role'.
 ALTER TABLE tbl_user
     ADD CONSTRAINT FK_tbl_user_tbl_role FOREIGN KEY (role_id) REFERENCES tbl_role(role_id);
+INSERT INTO tbl_role (role_id, name) VALUES (1, 'ROLE_ADMIN'), (2, 'ROLE_USER');
