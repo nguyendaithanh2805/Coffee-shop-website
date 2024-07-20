@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartServiceImpl implements CartService {
     private final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
@@ -30,5 +32,12 @@ public class CartServiceImpl implements CartService {
         cart.setSellingPrice(product.getSellingPrice());
         cart.setTotalBill(product.getSellingPrice() * quantity);
         cartRepository.save(cart);
+        logger.info("Save cart successfully");
+    }
+
+    @Override
+    public List<Cart> getAllProductByCart() {
+        int userId = userService.getCurrentUser().getUserId();
+        return cartRepository.findAllProductByCart(userId);
     }
 }
