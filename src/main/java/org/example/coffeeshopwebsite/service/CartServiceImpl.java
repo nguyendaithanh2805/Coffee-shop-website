@@ -28,8 +28,7 @@ public class CartServiceImpl implements CartService {
         User user = userService.getCurrentUser();
         cart.setUserId(user.getUserId());
         cart.setProductId(productId);
-        cart.setQuantity(quantity);
-        cart.setSellingPrice(product.getSellingPrice());
+        cart.setCartQuantity(quantity);
         cart.setTotalBill(product.getSellingPrice() * quantity);
         cartRepository.save(cart);
         logger.info("Save cart successfully");
