@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +29,10 @@ public class SecurityConfig{
             response.sendRedirect("/access-denied");
         });
     }
+    @Bean
+    public HttpSessionSecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -38,9 +43,9 @@ public class SecurityConfig{
                                 "/admin/js/**", "/admin/images/**", "/user/css/**",
                                 "/user/js/**", "/user/images/**", "/home",
                                 "/menu", "/about", "/blog", "/contact", "/access-denied").permitAll()
-                        .requestMatchers("/cart/add").hasAuthority("ROLE_USER")
+                        .requestMatchers("/carts/add", "/carts/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/admin", "/admin/**").hasAuthority("ROLE_ADMIN")
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
@@ -54,7 +59,10 @@ public class SecurityConfig{
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
                 )
-                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler()));
+                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler()))
+                .securityContext(securityContext -> securityContext
+                        .securityContextRepository(securityContextRepository())
+                );
         return httpSecurity.build();
     }
 }

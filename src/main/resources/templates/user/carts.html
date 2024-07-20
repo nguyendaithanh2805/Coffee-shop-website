@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{user/fragments/head.html :: head}">
+    <title></title>
+</head>
+<style>
+    .table-striped {
+        font-size: 20px;
+    }
+    th, td{
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+    th {
+        text-align: center;
+        background-color: #f2f2f2;
+    }
+    td {
+        text-align: center;
+    }
+
+</style>
+<body>
+
+<!-- header section starts -->
+
+<header th:replace="~{user/fragments/header.html :: header}"></header>
+
+<!-- header section ends -->
+
+<!-- sub heading -->
+
+<div class="sub-heading">
+    <h1>our menu</h1>
+</div>
+
+<!-- end -->
+
+<!-- menu section starts -->
+
+<section class="menu" style="
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+">
+    <div class="box-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div th:if="${#lists.isEmpty(cartItems)}" id="emptyCartMessage" style="display: flex;justify-content: center;align-items: center;">
+                        <a th:href="@{/menu}" class="btn btn-primary">Go to menu</a>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6" th:if="${!#lists.isEmpty(cartItems)}">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Selling price</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">Total bill</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="cartItem : ${cartItems}">
+                                <td th:text="${cartItem.getProduct().getName()}"></td>
+                                <td>
+                                    <img th:src="@{../user/images/__${cartItem.getProduct().getImage()}__}" alt="" style="max-width: 50px;">
+                                </td>
+                                <td th:text="${cartItem.getProduct().getSellingPrice()}"></td>
+                                <td th:text="${cartItem.getQuantity()}"></td>
+                                <td th:text="${cartItem.getTotalBill()}"></td>
+                                <td>
+                                    <a th:href="@{/carts/delete/{id}(id=${cartItem.cartId})}">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+<!--                        <div style="font-size: 20px;">-->
+<!--                            <form th:action="@{/checkout}" th:object="${order}" method="POST">-->
+<!--                                <label>-->
+<!--                                    Address-->
+<!--                                    <input type="text" placeholder="Address..." name="address" th:field="*{address}" style="border-style: solid;">-->
+<!--                                </label>-->
+<!--                                <button class="btn btn-success" type="submit">Check out</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</section>
+<!-- menu section ends -->
+
+<!-- footer section starts -->
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3><i class="fas fa-mug-hot"></i> coffee</h3>
+            <a href="#" class="links"> <i class="fas fa-phone"></i> +123-456-7890</a>
+            <a href="#" class="links"> <i class="fas fa-envelope"></i> ninjashub4@gmail.com</a>
+            <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i> california, USA 43215</a>
+        </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#">my order</a>
+            <a href="#">my favorite</a>
+            <a href="#">my wishlist</a>
+            <a href="#">my account</a>
+            <a href="#">terms or use</a>
+        </div>
+
+        <div class="box">
+            <h3>useful links</h3>
+            <a href="#">menu</a>
+            <a href="#">location</a>
+            <a href="#">events & promotions</a>
+            <a href="#">FAQs</a>
+            <a href="#">contact us</a>
+        </div>
+
+        <div class="box">
+            <h3>newsletter</h3>
+            <p>subscribe for latest update</p>
+            <form action="">
+                <label>
+                    <input type="email" placeholder="enter your email">
+                </label>
+                <input type="submit" value="subscribe" class="btn">
+            </form>
+            <img th:src="@{../user/images/payment.png}" class="payment" alt="">
+        </div>
+
+    </div>
+
+    <div class="credit"> created by <span>ninjashub</span> | all rights reserved! </div>
+
+</section>
+
+<!-- footer section ends -->
+
+<script th:src="@{../user/js/script.js}"></script>
+</body>
+</html>

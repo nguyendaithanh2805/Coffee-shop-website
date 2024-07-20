@@ -29,10 +29,10 @@ public class JdbcProductRepository implements ProductRepository {
             product.setUserId(rs.getInt("user_id"));
             product.setName(rs.getString("name"));
             product.setDescription(rs.getString("description"));
-            product.setDiscount(rs.getBigDecimal("discount"));
+            product.setDiscount(rs.getDouble("discount"));
             product.setImage(rs.getString("image"));
             product.setQuantity(rs.getInt("quantity"));
-            product.setSellingPrice(rs.getBigDecimal("selling_price"));
+            product.setSellingPrice(rs.getDouble("selling_price"));
             return product;
         }
     }

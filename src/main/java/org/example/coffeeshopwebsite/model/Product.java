@@ -1,22 +1,20 @@
 package org.example.coffeeshopwebsite.model;
 
-import java.math.BigDecimal;
-
 public class Product {
     private int productId;
     private int categoryId;
     private int userId;
     private String name;
     private String description;
-    private BigDecimal discount;
+    private double discount;
     private String image;
     private int quantity;
-    private BigDecimal sellingPrice;
+    private double sellingPrice;
 
     public Product() {
     }
 
-    public Product(int productId, int categoryId, int userId, String name, String description, BigDecimal discount, String image, int quantity, BigDecimal sellingPrice) {
+    public Product(int productId, int categoryId, int userId, String name, String description, double discount, String image, int quantity, double sellingPrice) {
         this.productId = productId;
         this.categoryId = categoryId;
         this.userId = userId;
@@ -68,11 +66,11 @@ public class Product {
         this.description = description;
     }
 
-    public BigDecimal getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(BigDecimal discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 
@@ -92,11 +90,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public BigDecimal getSellingPrice() {
+    public double getSellingPrice() {
         return sellingPrice;
     }
 
-    public void setSellingPrice(BigDecimal sellingPrice) {
+    public void setSellingPrice(double sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
 }
