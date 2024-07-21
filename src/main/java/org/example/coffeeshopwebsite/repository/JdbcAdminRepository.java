@@ -22,14 +22,14 @@ public class JdbcAdminRepository implements AdminRepository {
         @Override
         public Admin mapRow(ResultSet rs, int rowNum) throws SQLException {
             Admin admin = new Admin();
-            admin.setUserId(rs.getInt("user_id"));
-            admin.setFullName(rs.getString("full_name"));
+            admin.setUserId(rs.getInt("userId"));
+            admin.setFullName(rs.getString("fullName"));
             return admin;
         }
     }
     @Override
     public int save(Admin admin) {
-        return jdbcTemplate.update("INSERT INTO tbl_admin (user_id, full_name) VALUES (?, ?)", admin.getUserId(), admin.getFullName());
+        return jdbcTemplate.update("INSERT INTO tbl_admin (userId, fullName) VALUES (?, ?)", admin.getUserId(), admin.getFullName());
     }
 
     @Override
@@ -39,6 +39,6 @@ public class JdbcAdminRepository implements AdminRepository {
 
     @Override
     public String findByName(int id) {
-        return jdbcTemplate.queryForObject("SELECT username FROM tbl_user WHERE user_id = ?", new Object[]{id}, String.class);
+        return jdbcTemplate.queryForObject("SELECT username FROM tbl_user WHERE userId = ?", new Object[]{id}, String.class);
     }
 }

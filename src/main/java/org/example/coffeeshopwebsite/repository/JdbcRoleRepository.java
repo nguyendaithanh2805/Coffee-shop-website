@@ -22,13 +22,13 @@ public class JdbcRoleRepository implements RoleRepository {
         @Override
         public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
             Role role = new Role();
-            role.setRoleId(rs.getInt("role_id"));
+            role.setRoleId(rs.getInt("roleId"));
             role.setName(rs.getString("name"));
             return role;
         }
     }
     @Override
     public Role getRoleByUsername(String username) {
-        return jdbcTemplate.queryForObject("SELECT * FROM tbl_role r INNER JOIN tbl_user u ON r.role_id = u.role_id WHERE u.username = ?", new Object[]{username}, new RoleRowMapper());
+        return jdbcTemplate.queryForObject("SELECT * FROM tbl_role r INNER JOIN tbl_user u ON r.roleId = u.roleId WHERE u.username = ?", new Object[]{username}, new RoleRowMapper());
     }
 }
