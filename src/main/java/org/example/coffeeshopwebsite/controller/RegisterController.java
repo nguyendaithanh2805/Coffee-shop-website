@@ -2,6 +2,7 @@ package org.example.coffeeshopwebsite.controller;
 
 import org.example.coffeeshopwebsite.model.User;
 import org.example.coffeeshopwebsite.service.AdminService;
+import org.example.coffeeshopwebsite.service.CustomerService;
 import org.example.coffeeshopwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegisterController {
     private final UserService userService;
     private final AdminService adminService;
+    private final CustomerService customerService;
 
     @Autowired
-    public RegisterController(UserService userService, AdminService adminService) {
+    public RegisterController(UserService userService, AdminService adminService, CustomerService customerService) {
         this.userService = userService;
         this.adminService = adminService;
+        this.customerService = customerService;
     }
 
     @GetMapping
@@ -34,6 +37,7 @@ public class RegisterController {
         {
             userService.addUser(user);
             adminService.addAdmin(user);
+            customerService.addCustomer(user);
             return "redirect:/login";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
