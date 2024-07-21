@@ -22,7 +22,7 @@ public class JdbcCategoryRepository implements CategoryRepository{
         @Override
         public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
             Category category = new Category();
-            category.setCategoryId(rs.getInt("category_id"));
+            category.setCategoryId(rs.getInt("categoryId"));
             category.setName(rs.getString("name"));
             return category;
         }
@@ -37,7 +37,7 @@ public class JdbcCategoryRepository implements CategoryRepository{
 
     @Override
     public Category findById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM tbl_category WHERE category_id = ?", new CategoryRowMapper(), id);
+        return jdbcTemplate.queryForObject("SELECT * FROM tbl_category WHERE categoryId = ?", new CategoryRowMapper(), id);
     }
 
     @Override
@@ -47,11 +47,11 @@ public class JdbcCategoryRepository implements CategoryRepository{
 
     @Override
     public int update(Category category) {
-        return jdbcTemplate.update("UPDATE tbl_category SET name = ? WHERE category_id = ?", category.getName(), category.getCategoryId());
+        return jdbcTemplate.update("UPDATE tbl_category SET name = ? WHERE categoryId = ?", category.getName(), category.getCategoryId());
     }
 
     @Override
     public int deleteById(int id) {
-        return jdbcTemplate.update("DELETE FROM tbl_category WHERE category_id = ?", id);
+        return jdbcTemplate.update("DELETE FROM tbl_category WHERE categoryId = ?", id);
     }
 }

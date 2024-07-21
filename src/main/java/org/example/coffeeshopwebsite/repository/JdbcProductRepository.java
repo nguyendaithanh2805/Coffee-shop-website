@@ -24,15 +24,15 @@ public class JdbcProductRepository implements ProductRepository {
         @Override
         public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
             Product product = new Product();
-            product.setProductId(rs.getInt("product_id"));
-            product.setCategoryId(rs.getInt("category_id"));
-            product.setUserId(rs.getInt("user_id"));
+            product.setProductId(rs.getInt("productId"));
+            product.setCategoryId(rs.getInt("categoryId"));
+            product.setUserId(rs.getInt("userId"));
             product.setName(rs.getString("name"));
             product.setDescription(rs.getString("description"));
             product.setDiscount(rs.getDouble("discount"));
             product.setImage(rs.getString("image"));
             product.setQuantity(rs.getInt("quantity"));
-            product.setSellingPrice(rs.getDouble("selling_price"));
+            product.setSellingPrice(rs.getDouble("sellingPrice"));
             return product;
         }
     }
@@ -44,12 +44,12 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public Product findById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM tbl_product WHERE product_id = ?", new ProductRowMapper(), id);
+        return jdbcTemplate.queryForObject("SELECT * FROM tbl_product WHERE productId = ?", new ProductRowMapper(), id);
     }
 
     @Override
     public int save(Product product) {
-        return jdbcTemplate.update("INSERT INTO tbl_product (category_id, user_id, name, description, discount, image, quantity, selling_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO tbl_product (categoryId, userId, name, description, discount, image, quantity, sellingPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 product.getCategoryId(), product.getUserId(),
                 product.getName(), product.getDescription(),
                 product.getDiscount(), product.getImage(),
@@ -58,7 +58,7 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int update(Product product) {
-        return jdbcTemplate.update("UPDATE tbl_product SET category_id = ?, user_id = ?, name = ?, description = ?, discount = ?, image = ?, quantity = ?, selling_price = ? WHERE product_id = ?",
+        return jdbcTemplate.update("UPDATE tbl_product SET categoryId = ?, userId = ?, name = ?, description = ?, discount = ?, image = ?, quantity = ?, sellingPrice = ? WHERE productId = ?",
                 product.getCategoryId(), product.getUserId(),
                 product.getName(), product.getDescription(),
                 product.getDiscount(), product.getImage(),
@@ -67,6 +67,6 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int deleteById(int id) {
-        return jdbcTemplate.update("DELETE FROM tbl_product WHERE product_id = ?", id);
+        return jdbcTemplate.update("DELETE FROM tbl_product WHERE productId = ?", id);
     }
 }

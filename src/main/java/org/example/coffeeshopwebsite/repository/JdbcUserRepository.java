@@ -25,8 +25,8 @@ public class JdbcUserRepository implements UserRepository {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
-            user.setUserId(rs.getInt("user_id"));
-            user.setRoleId(rs.getInt("role_id"));
+            user.setUserId(rs.getInt("userId"));
+            user.setRoleId(rs.getInt("roleId"));
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             return user;
@@ -36,7 +36,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public int save(User user) {
         checkExistsUser(user);
-        return jdbcTemplate.update("INSERT INTO tbl_user (role_id, username, password) VALUES (?, ?, ?)", user.getRoleId(), user.getUsername(), encodePassword(user));
+        return jdbcTemplate.update("INSERT INTO tbl_user (roleId, username, password) VALUES (?, ?, ?)", user.getRoleId(), user.getUsername(), encodePassword(user));
     }
 
     @Override

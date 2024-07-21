@@ -24,22 +24,22 @@ public class JdbcCartRepository implements CartRepository {
         @Override
         public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
             Cart cart = new Cart();
-            cart.setCartId(rs.getInt("cart_id"));
-            cart.setUserId(rs.getInt("user_id"));
-            cart.setProductId(rs.getInt("product_id"));
-            cart.setCartQuantity(rs.getInt("cart_quantity"));
-            cart.setTotalBill(rs.getDouble("total_bill"));
+            cart.setCartId(rs.getInt("cartId"));
+            cart.setUserId(rs.getInt("userId"));
+            cart.setProductId(rs.getInt("productId"));
+            cart.setCartQuantity(rs.getInt("cartQuantity"));
+            cart.setTotalBill(rs.getDouble("totalBill"));
 
             Product product = new Product();
-            product.setProductId(rs.getInt("product_id"));
-            product.setCategoryId(rs.getInt("category_id"));
-            product.setUserId(rs.getInt("user_id"));
+            product.setProductId(rs.getInt("productId"));
+            product.setCategoryId(rs.getInt("categoryId"));
+            product.setUserId(rs.getInt("userId"));
             product.setName(rs.getString("name"));
             product.setDescription(rs.getString("description"));
             product.setDiscount(rs.getDouble("discount"));
             product.setImage(rs.getString("image"));
             product.setQuantity(rs.getInt("quantity"));
-            product.setSellingPrice(rs.getDouble("selling_price"));
+            product.setSellingPrice(rs.getDouble("sellingPrice"));
             cart.setProduct(product);
             return cart;
         }
@@ -47,18 +47,18 @@ public class JdbcCartRepository implements CartRepository {
 
     @Override
     public int save(Cart cart) {
-        return jdbcTemplate.update("INSERT INTO tbl_cart (user_id, product_id, cart_quantity, total_bill) VALUES (?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO tbl_cart (userId, productId, cartQuantity, totalBill) VALUES (?, ?, ?, ?)",
                 cart.getUserId(), cart.getProductId(),
                 cart.getCartQuantity(), cart.getTotalBill());
     }
 
     @Override
     public int deleteById(int id) {
-        return jdbcTemplate.update("DELETE FROM tbl_cart WHERE product_id = ?", id);
+        return jdbcTemplate.update("DELETE FROM tbl_cart WHERE productId = ?", id);
     }
 
     @Override
     public List<Cart> findAllProductByCart(int userId) {
-        return jdbcTemplate.query("SELECT * FROM tbl_cart c INNER JOIN tbl_product p ON c.product_id = p.product_id WHERE c.user_id = ?", new CartRowMapper(), userId);
+        return jdbcTemplate.query("SELECT * FROM tbl_cart c INNER JOIN tbl_product p ON c.productId = p.productId WHERE c.userId = ?", new CartRowMapper(), userId);
     }
 }
