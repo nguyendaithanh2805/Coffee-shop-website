@@ -114,9 +114,9 @@ ALTER TABLE tbl_order
 ALTER TABLE tbl_order
     ADD CONSTRAINT FK_tbl_order_tbl_customer FOREIGN KEY (userId) REFERENCES tbl_customer (userId);
 ---- FOREIGN KEY OF THE 'tbl_cart'.
------- The foreign key of the 'tbl_cart' references the 'userId' column of the 'tbl_user'.
+------ The foreign key of the 'tbl_cart' references the 'userId' column of the 'tbl_customer'.
 ALTER TABLE tbl_cart
-    ADD CONSTRAINT FK_tbl_cart_tbl_user FOREIGN KEY (userId) REFERENCES tbl_user (userId);
+    ADD CONSTRAINT FK_tbl_cart_tbl_user FOREIGN KEY (userId) REFERENCES tbl_customer (userId);
 ------ The foreign key of the 'tbl_cart' references the 'productId' column of the 'tbl_product'.
 ALTER TABLE tbl_cart
     ADD CONSTRAINT FK_tbl_cart_tbl_product FOREIGN KEY (productId) REFERENCES tbl_product (productId);
