@@ -84,7 +84,7 @@
                                 <td>
                                     <img th:src="@{../user/images/__${cartItem.getProduct().getImage()}__}" alt="" style="max-width: 50px;">
                                 </td>
-                                <td th:text="${cartItem.getProduct().getSellingPrice()}"></td>
+                                <td th:text="${#numbers.formatDecimal(cartItem.getProduct().getSellingPrice(), 1, 'COMMA', 2, 'POINT')} + '$'"></td>
                                 <td>
                                     <div class="quantity-controls">
                                         <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
@@ -95,7 +95,7 @@
                                         <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
                                     </div>
                                 </td>
-                                <td th:text="${cartItem.getTotalBill()}" class="total-bill" ></td>
+                                <td th:text="${#numbers.formatDecimal(cartItem.getTotalBill(), 1, 'COMMA', 2, 'POINT')} + '$'" class="total-bill" ></td>
                                 <td>
                                     <a th:href="@{/carts/delete/{id}(id=${cartItem.productId})}">
                                         <button class="btn btn-danger">Delete</button>
@@ -198,7 +198,7 @@
         const totalBillCell = input.closest('tr').querySelector('.total-bill');
         const totalBill = price * quantity;
         // Cap nhat noi dung va dinh dang tien
-        totalBillCell.textContent = totalBill.toFixed(2);
+        totalBillCell.textContent = totalBill.toFixed(2) + '$';
     }
 
     let debounceTimeout;
