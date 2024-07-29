@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{user/fragments/head.html :: head}">
+    <title></title>
+</head>
+<body>
+
+<!-- header section starts -->
+
+<header th:replace="~{user/fragments/header.html :: header}"></header>
+
+
+<!-- header section ends -->
+
+
+<!-- sub heading -->
+
+<div class="sub-heading">
+    <h1>our blog</h1>
+</div>
+
+<!-- end -->
+
+<!-- blog section starts -->
+
+<section class="blog">
+
+    <div class="box-container">
+
+        <div class="box" th:each="blog : ${blogs}" th:if="${blog.getStatus() == true}">
+            <div class="image">
+                <img th:src="@{../user/images/__${blog.getImage()}__}" alt="">
+            </div>
+            <div class="content">
+                <h3 th:text="${blog.getName()}"></h3>
+                <p th:text="${blog.getDescription()}"></p>
+                <a th:href="@{/menu}" class="btn">Go to product</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- blog section ends -->
+
+
+
+
+
+
+
+
+
+<!-- footer section starts -->
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3><i class="fas fa-mug-hot"></i> coffee</h3>
+            <a href="#" class="links"> <i class="fas fa-phone"></i> +123-456-7890</a>
+            <a href="#" class="links"> <i class="fas fa-envelope"></i> ninjashub4@gmail.com</a>
+            <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i> california, USA 43215</a>
+        </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#">my order</a>
+            <a href="#">my favorite</a>
+            <a href="#">my wishlist</a>
+            <a href="#">my account</a>
+            <a href="#">terms or use</a>
+        </div>
+
+        <div class="box">
+            <h3>useful links</h3>
+            <a href="#">menu</a>
+            <a href="#">location</a>
+            <a href="#">events & promotions</a>
+            <a href="#">FAQs</a>
+            <a href="#">contact us</a>
+        </div>
+
+        <div class="box">
+            <h3>newsletter</h3>
+            <p>subscribe for latest update</p>
+            <form action="">
+                <label>
+                    <input type="email" placeholder="enter your email">
+                </label>
+                <input type="submit" value="subscribe" class="btn">
+            </form>
+            <img th:src="@{../user/images/payment.png}" class="payment}" alt="">
+        </div>
+
+    </div>
+
+    <div class="credit"> created by <span>ninjashub</span> | all rights reserved! </div>
+
+</section>
+
+<!-- footer section ends -->
+
+<script th:src="@{../user/js/script.js}"></script>
+
+</body>
+</html>
