@@ -1,5 +1,6 @@
 package org.example.coffeeshopwebsite.service;
 
+import org.example.coffeeshopwebsite.model.Article;
 import org.example.coffeeshopwebsite.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +34,8 @@ public class FileUploadServiceImpl implements FileUploadService {
                 /*Neu Object entity la instance cua Product hoac Article thi ep kieu theo instance do*/
                 if (entity instanceof Product)
                     ((Product) entity).setImage(fileName);
-//            else if (entity instanceof Article)
-//                ((Article) entity).setImage(fileName);
+            else if (entity instanceof Article)
+                ((Article) entity).setImage(fileName);
             } catch (Exception e) {
                 logger.error("Failed to save image", e);
             }
