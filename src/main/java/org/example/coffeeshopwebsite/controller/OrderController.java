@@ -1,5 +1,6 @@
 package org.example.coffeeshopwebsite.controller;
 
+import org.example.coffeeshopwebsite.model.Article;
 import org.example.coffeeshopwebsite.model.Order;
 import org.example.coffeeshopwebsite.model.Payment;
 import org.example.coffeeshopwebsite.service.OrderService;
@@ -13,7 +14,6 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
     private final PaymentService paymentService;
@@ -23,8 +23,8 @@ public class OrderController {
         this.orderService = orderService;
         this.paymentService = paymentService;
     }
-
-    @GetMapping("/checkout")
+    // CREATE
+    @GetMapping("/orders/checkout")
     public String showOrderForm(Model model) {
         List<Payment> payments = paymentService.getAllPaymentMethod();
         model.addAttribute("order", new Order());
@@ -32,10 +32,32 @@ public class OrderController {
         return "user/order";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/orders/add")
     public String checkOut(@RequestParam("paymentId") int paymentId, @ModelAttribute Order order) {
         order.setPaymentId(paymentId);
         orderService.saveOrder(order);
         return "redirect:/user/success";
+    }
+
+    // READ
+    @GetMapping("/admin/orders")
+    public String listOrder(Model model) {
+        model.addAttribute("orders", orderService.getAllOrder());
+        return "admin/orders";
+    }
+
+    // UPDATE
+    @PostMapping("/admin/orders/edit-status")
+    public String updateStatus(@RequestParam int id, @RequestParam(name = "status", required = false) Boolean status) {
+        Order order = orderService.getOrderById(id);
+        order.setStatus(status);
+        orderService.updateOrder(order);
+        return "redirect:/admin/orders";
+    }
+    // DELETE
+    @GetMapping("/delete")
+    public String deleteProduct(@RequestParam int id) {
+        orderService.deleteOrderById(id);
+        return "redirect:/admin/orders";
     }
 }

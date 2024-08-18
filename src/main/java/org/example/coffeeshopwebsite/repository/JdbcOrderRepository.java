@@ -56,4 +56,22 @@ public class JdbcOrderRepository implements OrderRepository {
                 order.getOrderDate(), order.getDeliveryDate(),
                 order.getStatus(), order.getNote(), order.getAddress());
     }
+
+    @Override
+    public Order findById(int id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT o.*, p.name FROM tbl_order o " +
+                    "JOIN tbl_payment p ON o.paymentId = p.paymentId " +
+                    "WHERE o.orderId = ?", new OrderRowMapper(), id);
+    }
+
+    @Override
+    public void update(Order order) {
+        jdbcTemplate.update("UPDATE tbl_order SET status = ? WHERE orderId = ?", order.getStatus(), order.getOrderId());
+    }
+
+    @Override
+    public void deleteById(int id) {
+        jdbcTemplate.update("DELETE FROM tbl_order WHERE orderId = ?", id);
+    }
 }
