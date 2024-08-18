@@ -63,50 +63,27 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div th:if="${#lists.isEmpty(cartItems)}" id="emptyCartMessage" style="display: flex;justify-content: center;align-items: center;">
-                        <a th:href="@{/menu}" class="btn btn-primary">Go to menu</a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6" th:if="${!#lists.isEmpty(cartItems)}">
+                    <form th:action="@{/orders/add}" th:object="${order}" th:method="post">
                         <table class="table table-striped">
-                            <thead>
                             <tr>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Selling price</th>
-                                <th scope="col">quantity</th>
-                                <th scope="col">Total bill</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="cartItem : ${cartItems}">
-                                <td th:text="${cartItem.getProduct().getName()}"></td>
+                                <td><label for="payment">Payment methods:</label></td>
                                 <td>
-                                    <img th:src="@{../user/images/__${cartItem.getProduct().getImage()}__}" alt="" style="max-width: 50px;">
-                                </td>
-                                <td th:text="${#numbers.formatDecimal(cartItem.getProduct().getSellingPrice(), 1, 'COMMA', 2, 'POINT')} + '$'"></td>
-                                <td>
-                                    <div class="quantity-controls">
-                                        <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                                        <label>
-                                            <input type="text" class="quantity-input" th:value="${cartItem.getCartQuantity()}" min="1"
-                                                   th:data-max="${cartItem.getProduct().getQuantity()}" th:data-price="${cartItem.getProduct().getSellingPrice()}" oninput="updateTotalBill(this)">
-                                        </label>
-                                        <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-                                    </div>
-                                </td>
-                                <td th:text="${#numbers.formatDecimal(cartItem.getTotalBill(), 1, 'COMMA', 2, 'POINT')} + '$'" class="total-bill" ></td>
-                                <td>
-                                    <a th:href="@{/carts/delete/{id}(id=${cartItem.productId})}">
-                                        <button class="btn btn-danger">Delete</button>
-                                    </a>
+                                    <select class="form-control" id="payment" name="paymentId" required>
+                                        <option th:each="payment : ${payments}" th:value="${payment.paymentId}" th:text="${payment.getName()}"></option>
+                                    </select>
                                 </td>
                             </tr>
-                            </tbody>
+                            <tr>
+                                <td><label for="note">Note for order:</label></td>
+                                <td><input type="text" id="note" name="note" th:field="*{note}" th:placeholder="Note..."></td>
+                            </tr>
+                            <tr>
+                                <td><label for="address">Address:</label></td>
+                                <td><input type="text" id="address" name="address" th:field="*{address}" th:placeholder="Address..."></td>
+                            </tr>
                         </table>
-                        <a th:href="@{/orders/checkout}">
-                            <button class="btn btn-success">Checkout</button></a>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Checkout</button>
+                    </form>
                 </div>
             </div>
         </div>
