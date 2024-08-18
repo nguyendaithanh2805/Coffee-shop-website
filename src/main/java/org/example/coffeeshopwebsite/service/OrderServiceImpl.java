@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -31,6 +32,27 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(false);
         orderRepository.save(order);
     }
+
+    @Override
+    public List<Order> getAllOrder() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Order getOrderById(int id) {
+        return orderRepository.findById(id);
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        orderRepository.update(order);
+    }
+
+    @Override
+    public void deleteOrderById(int id) {
+        orderRepository.deleteById(id);
+    }
+
     private Date calculateDeliveryDate(Date orderDate) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(orderDate);
