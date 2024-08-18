@@ -23,7 +23,7 @@ CREATE TABLE tbl_product (
 
 CREATE TABLE tbl_order (
     orderId        	INT             AUTO_INCREMENT,
-    payment_id      INT             NOT NULL,
+    paymentId      INT             NOT NULL,
     userId     		INT             NOT NULL,
     orderDate      	DATE            NOT NULL,
     deliveryDate   	DATE            NOT NULL,
@@ -33,9 +33,9 @@ CREATE TABLE tbl_order (
     CONSTRAINT PK_tbl_order PRIMARY KEY (orderId)
 );
 CREATE TABLE tbl_payment (
-    payment_id      INT             AUTO_INCREMENT,
+    paymentId       INT             AUTO_INCREMENT,
     name            VARCHAR(255)    NOT NULL,
-    CONSTRAINT PK_tbl_payment PRIMARY KEY (payment_id)
+    CONSTRAINT PK_tbl_payment PRIMARY KEY (paymentId)
 );
 
 CREATE TABLE tbl_order_detail (
@@ -107,9 +107,9 @@ ALTER TABLE tbl_order_detail
     ADD CONSTRAINT FK_tbl_order_detail_tbl_product FOREIGN KEY (productId) REFERENCES tbl_product (productId);
 
 ---- FOREIGN KEY OF THE 'tbl_order'.
------- The foreign key of the 'tbl_order' references the 'payment_id' column of the 'tbl_payment'.
+------ The foreign key of the 'tbl_order' references the 'paymentId' column of the 'tbl_payment'.
 ALTER TABLE tbl_order
-    ADD CONSTRAINT FK_tbl_order_tbl_payment FOREIGN KEY (payment_id) REFERENCES tbl_payment (payment_id);
+    ADD CONSTRAINT FK_tbl_order_tbl_payment FOREIGN KEY (paymentId) REFERENCES tbl_payment (paymentId);
 ------ The foreign key of the 'tbl_order' references the 'userId' column of the 'tbl_customer'.
 ALTER TABLE tbl_order
     ADD CONSTRAINT FK_tbl_order_tbl_customer FOREIGN KEY (userId) REFERENCES tbl_customer (userId);
