@@ -1,6 +1,5 @@
 package org.example.coffeeshopwebsite.controller;
 
-import org.example.coffeeshopwebsite.model.Article;
 import org.example.coffeeshopwebsite.model.Order;
 import org.example.coffeeshopwebsite.model.Payment;
 import org.example.coffeeshopwebsite.service.OrderService;
@@ -8,7 +7,10 @@ import org.example.coffeeshopwebsite.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class OrderController {
     public String checkOut(@RequestParam("paymentId") int paymentId, @ModelAttribute Order order) {
         order.setPaymentId(paymentId);
         orderService.saveOrder(order);
-        return "redirect:/user/success";
+        return "redirect:/menu";
     }
 
     // READ
@@ -54,8 +56,9 @@ public class OrderController {
         orderService.updateOrder(order);
         return "redirect:/admin/orders";
     }
+
     // DELETE
-    @GetMapping("/delete")
+    @GetMapping("/admin/orders/delete")
     public String deleteProduct(@RequestParam int id) {
         orderService.deleteOrderById(id);
         return "redirect:/admin/orders";
