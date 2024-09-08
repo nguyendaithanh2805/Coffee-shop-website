@@ -50,8 +50,9 @@ public class JdbcOrderRepository implements OrderRepository {
 
     @Override
     public int save(Order order) {
-        return jdbcTemplate.update("INSERT INTO tbl_order (paymentId, userId, orderDate, deliveryDate, status, note, address) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO tbl_order (orderId, paymentId, userId, orderDate, deliveryDate, status, note, address) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                order.getOrderId(),
                 order.getPaymentId(), order.getUserId(),
                 order.getOrderDate(), order.getDeliveryDate(),
                 order.getStatus(), order.getNote(), order.getAddress());

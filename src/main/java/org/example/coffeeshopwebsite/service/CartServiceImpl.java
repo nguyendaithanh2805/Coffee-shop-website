@@ -67,4 +67,9 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteById(id);
         logger.info("Deleted successfully");
     }
+
+    @Override
+    public List<Cart> getProductsInCart(int userId) {
+        return cartRepository.findProductsInCart(userId);
+    }
 }

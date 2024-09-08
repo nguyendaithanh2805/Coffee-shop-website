@@ -73,4 +73,9 @@ public class JdbcCartRepository implements CartRepository {
                 existingCart.getUserId(), existingCart.getProductId(),
                 existingCart.getCartQuantity(), existingCart.getTotalBill(), existingCart.getCartId());
     }
+
+    @Override
+    public List<Cart> findProductsInCart(int userId) {
+        return jdbcTemplate.query("SELECT * FROM tbl_cart c INNER JOIN tbl_product p ON c.productId = p.productId WHERE c.userId = ?", new CartRowMapper(), userId);
+    }
 }

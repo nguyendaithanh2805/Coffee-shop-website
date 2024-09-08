@@ -26,6 +26,8 @@ public class OrderServiceImpl implements OrderService {
         User user = userService.getCurrentUser();
         Date orderDate = new Date();
         Date deliveryDate = calculateDeliveryDate(orderDate);
+        int orderId = generateOrderIdFromTimestamp();
+        order.setOrderId(orderId);
         order.setOrderDate(orderDate);
         order.setDeliveryDate(deliveryDate);
         order.setUserId(user.getUserId());
@@ -58,5 +60,10 @@ public class OrderServiceImpl implements OrderService {
         cal.setTime(orderDate);
         cal.add(Calendar.DAY_OF_MONTH, 3);
         return cal.getTime();
+    }
+
+    public static int generateOrderIdFromTimestamp() {
+        long timestamp = System.currentTimeMillis(); // Lấy thời gian hiện tại theo mili giây
+        return (int) (timestamp % Integer.MAX_VALUE); // Đảm bảo giá trị không vượt quá phạm vi của int
     }
 }
