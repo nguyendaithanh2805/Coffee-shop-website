@@ -69,4 +69,9 @@ public class JdbcProductRepository implements ProductRepository {
     public int deleteById(int id) {
         return jdbcTemplate.update("DELETE FROM tbl_product WHERE productId = ?", id);
     }
+
+    @Override
+    public List<Product> findProductByOrderId(int id) {
+        return jdbcTemplate.query("SELECT * FROM tbl_product p INNER JOIN tbl_order_detail od ON p.productId = od.productId WHERE od.orderId = ?", new ProductRowMapper(), id);
+    }
 }
