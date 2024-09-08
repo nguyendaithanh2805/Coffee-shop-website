@@ -58,6 +58,7 @@ public class OrderController {
             orderDetail.setTotalBill(cart.getTotalBill());
             orderDetailService.saveOrderDetail(orderDetail);
             DecreaseProductQuantity(cart, orderId);
+            DeleteCart(cart.getProductId());
         }
         return "redirect:/menu";
     }
@@ -92,5 +93,9 @@ public class OrderController {
             User user = userService.getUserIdAdmin();
             productService.updateProduct(product, user);
         }
+    }
+
+    private void DeleteCart(int productId) {
+        cartService.deleteProductInCartById(productId);
     }
 }
