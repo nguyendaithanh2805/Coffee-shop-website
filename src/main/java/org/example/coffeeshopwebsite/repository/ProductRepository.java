@@ -10,4 +10,5 @@ public interface ProductRepository {
     int save(Product product);
     int update(Product product);
     int deleteById(int id);
+    List<Product> findProductByOrderId(int id);
 }

@@ -38,4 +38,9 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public User getUserIdAdmin() {
+       return userRepository.findUserIdAdmin();
+    }
 }

@@ -49,6 +49,11 @@ public class JdbcUserRepository implements UserRepository {
         return jdbcTemplate.queryForObject("SELECT * FROM tbl_user WHERE username = ?", new UserRowMapper(), username);
     }
 
+    @Override
+    public User findUserIdAdmin() {
+        return jdbcTemplate.queryForObject("SELECT * FROM tbl_user WHERE username = ?", new Object[]{"ADMIN"}, new UserRowMapper());
+    }
+
     private String encodePassword(User user) {
         return passwordEncoder.encode(user.getPassword());
     }

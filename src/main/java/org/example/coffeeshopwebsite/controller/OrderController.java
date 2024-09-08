@@ -21,14 +21,16 @@ public class OrderController {
     private final OrderDetailService orderDetailService;
     private final CartService cartService;
     private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
-    public OrderController(OrderService orderService, PaymentService paymentService, OrderDetailService orderDetailService, CartService cartService, UserService userService) {
+    public OrderController(OrderService orderService, PaymentService paymentService, OrderDetailService orderDetailService, CartService cartService, UserService userService, ProductService productService) {
         this.orderService = orderService;
         this.paymentService = paymentService;
         this.orderDetailService = orderDetailService;
         this.cartService = cartService;
         this.userService = userService;
+        this.productService = productService;
     }
 
     // CREATE
@@ -42,18 +44,21 @@ public class OrderController {
 
     @PostMapping("/orders/add")
     public String checkOut(@RequestParam("paymentId") int paymentId, @ModelAttribute Order order) {
-        int userId = userService.getCurrentUser().getUserId();
+        User user = userService.getCurrentUser();
         order.setPaymentId(paymentId);
         orderService.saveOrder(order);
-        List<Cart> productsInCart= cartService.getProductsInCart(userId);
+        List<Cart> productsInCart= cartService.getProductsInCart(user.getUserId());
+        int orderId = order.getOrderId();
         for (Cart cart : productsInCart) {
             OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrderId(order.getOrderId());
+            orderDetail.setOrderId(orderId);
             orderDetail.setProductId(cart.getProductId());
             orderDetail.setDiscount(cart.getProduct().getDiscount());
             orderDetail.setOrderQuantity(cart.getCartQuantity());
             orderDetail.setTotalBill(cart.getTotalBill());
             orderDetailService.saveOrderDetail(orderDetail);
+            DecreaseProductQuantity(cart, orderId);
+            DeleteCart(cart.getProductId());
         }
         return "redirect:/menu";
     }
@@ -81,7 +86,16 @@ public class OrderController {
         return "redirect:/admin/orders";
     }
 
-    public void IncreaseAndDecreaseProductQuantity() {
+    private void DecreaseProductQuantity(Cart cart, int orderId) {
+        List<Product> products = productService.getProductByOrderId(orderId);
+        for (Product product : products) {
+            product.setQuantity(product.getQuantity() - cart.getCartQuantity());
+            User user = userService.getUserIdAdmin();
+            productService.updateProduct(product, user);
+        }
+    }
 
+    private void DeleteCart(int productId) {
+        cartService.deleteProductInCartById(productId);
     }
 }
