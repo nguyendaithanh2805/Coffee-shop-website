@@ -4,6 +4,7 @@ import org.example.coffeeshopwebsite.model.*;
 import org.example.coffeeshopwebsite.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,7 +58,7 @@ public class OrderController {
             orderDetail.setOrderQuantity(cart.getCartQuantity());
             orderDetail.setTotalBill(cart.getTotalBill());
             orderDetailService.saveOrderDetail(orderDetail);
-            DecreaseProductQuantity(cart, orderId);
+            DecreaseProductQuantity(cart);
             DeleteCart(cart.getProductId());
         }
         return "redirect:/menu";
@@ -86,13 +87,11 @@ public class OrderController {
         return "redirect:/admin/orders";
     }
 
-    private void DecreaseProductQuantity(Cart cart, int orderId) {
-        List<Product> products = productService.getProductByOrderId(orderId);
-        for (Product product : products) {
-            product.setQuantity(product.getQuantity() - cart.getCartQuantity());
-            User user = userService.getUserIdAdmin();
-            productService.updateProduct(product, user);
-        }
+    private void DecreaseProductQuantity(Cart cart) {
+        Product product = cart.getProduct();
+        product.setQuantity(product.getQuantity() - cart.getCartQuantity());
+        User user = userService.getUserIdAdmin();
+        productService.updateProduct(product, user);
     }
 
     private void DeleteCart(int productId) {

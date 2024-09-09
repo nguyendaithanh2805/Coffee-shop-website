@@ -5,10 +5,7 @@ import org.example.coffeeshopwebsite.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -55,14 +52,21 @@ public class CategoryController {
         return "redirect:/admin/categories";
     }
     // DELETE
-    @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable int id, RedirectAttributes redirectAttributes) {
-        try {
-            categoryService.deleteCategoryById(id);
-            return "redirect:/admin/categories";
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("error", "Cannot delete or update Category because product existing");
-            return "redirect:/admin/categories";
-        }
+    @GetMapping("/confirm-delete/{id}")
+    public String showDeleteConfirmationPage(@PathVariable int id, Model model) {
+        Category category = categoryService.findCategoryById(id);
+        if (category == null) return "redirect:/admin/categories";
+
+        model.addAttribute("entityName", "category");
+        model.addAttribute("entityDisplayName", category.getName());
+        model.addAttribute("entityId", category.getCategoryId());
+        model.addAttribute("deleteUrl", "/admin/categories/delete");
+        return "admin/delete";
+    }
+
+    @GetMapping("/delete")
+    public String deleteCategory(@RequestParam("id") int id) {
+        categoryService.deleteCategoryById(id);
+        return "redirect:/admin/categories";
     }
 }
