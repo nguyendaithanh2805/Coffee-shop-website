@@ -79,8 +79,19 @@ public class ProductController {
     }
 
     // DELETE
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable int id) {
+    @GetMapping("/confirm-delete/{id}")
+    public String showDeleteConfirmationPage(@PathVariable int id, Model model) {
+        Product product = productService.findProductById(id);
+        if (product == null) return "redirect:/admin/products";
+        model.addAttribute("entityName", "product");
+        model.addAttribute("entityDisplayName", product.getName());
+        model.addAttribute("entityId", product.getProductId());
+        model.addAttribute("deleteUrl", "/admin/products/delete");
+        return "admin/delete";
+    }
+
+    @GetMapping("/delete")
+    public String deleteConfirm(@RequestParam("id") int id) {
         productService.deleteProductById(id);
         return "redirect:/admin/products";
     }

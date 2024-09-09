@@ -2,15 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{admin/fragments/head.html :: head}">
-    <title>Categories</title>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var error = /*[[${error}]]*/ 'null';
-            if (error !== 'null') {
-                alert(error);
-            }
-        });
-    </script>
+    <title></title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -55,29 +47,16 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6">
-                        <table class="table table-striped-columns" >
-                            <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="category : ${categories}">
-                                <td th:text="${category.getCategoryId()}"></td>
-                                <td th:text="${category.getName()}"></td>
-                                <td>
-                                    <a th:href="@{/admin/categories/edit/{id}(id=${category.categoryId})}"><button class="btn btn-primary">Update</button> </a>
-                                    <a th:href="@{/admin/categories/confirm-delete/{id}(id=${category.categoryId})}"><button class="btn btn-danger">Delete</button> </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <a th:href="@{/admin/categories/add}"><button class="btn btn-success" type="submit" style="margin-bottom: 20px; margin-left: 10px">Add a new category</button></a>
-                        <a th:href="@{/admin/products}"><button class="btn btn-primary" type="submit" style="margin-bottom: 20px; margin-left: 10px">Go to products list</button></a>
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 text-center">
+                            <h4>Are you sure want to delete this
+                                <b th:text="${entityName}"></b>?
+                            </h4>
+                            <h5 id="entity-name" th:text="${entityDisplayName}" style="color: red"></h5>
+                            <button id="confirm-delete" th:data-entity-id="${entityId}" th:data-delete-url="${deleteUrl}" class="btn btn-danger">Yes</button>
+                            <a th:href="@{/admin/products}" class="btn btn-secondary">Cancel</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,5 +81,11 @@
 <!-- ./wrapper -->
 
 <div th:replace="~{admin/fragments/script.html :: scripts}"></div>
+<script>
+    document.getElementById('confirm-delete').addEventListener('click', function () {
+        const entityId = this.getAttribute('data-entity-id');
+        window.location.href = this.getAttribute('data-delete-url') + "?id=" + entityId;
+    });
+</script>
 </body>
 </html>
