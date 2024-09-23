@@ -30,7 +30,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addProductToCart(Cart cart, Product product, int productId, int quantity) {
         try {
-            Cart existingCart = cartRepository.findByProductId(productId);
+            Cart existingCart = cartRepository.findByProductIdAndUserId(productId, userService.getCurrentUser().getUserId());
             if (existingCart.getProduct().getProductId() > 0) {
                 existingCart.setCartQuantity(existingCart.getCartQuantity() + quantity);
                 existingCart.setTotalBill(product.getSellingPrice() * existingCart.getCartQuantity());
@@ -64,7 +64,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteProductInCartById(int id) {
-        cartRepository.deleteById(id);
+        cartRepository.deleteByIdAndUserId(id, userService.getCurrentUser().getUserId());
         logger.info("Deleted successfully");
     }
 

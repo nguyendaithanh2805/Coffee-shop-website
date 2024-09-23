@@ -1,6 +1,7 @@
 package org.example.coffeeshopwebsite.controller;
 
 import org.example.coffeeshopwebsite.model.Article;
+import org.example.coffeeshopwebsite.model.Product;
 import org.example.coffeeshopwebsite.service.ArticleService;
 import org.example.coffeeshopwebsite.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,16 @@ public class ArticleController {
         return "redirect:/admin/articles";
     }
     // DELETE
+    @GetMapping("/confirm-delete/{id}")
+    public String showDeleteConfirmationPage(@PathVariable int id, Model model) {
+        Article article = articleService.getArticleById(id);
+        if (article == null) return "redirect:/admin/articles";
+        model.addAttribute("entityName", "article");
+        model.addAttribute("entityDisplayName", article.getName());
+        model.addAttribute("entityId", article.getArticleId());
+        model.addAttribute("deleteUrl", "/admin/articles/delete");
+        return "admin/delete";
+    }
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam int id) {
         articleService.deleteArticleById(id);
