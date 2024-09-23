@@ -86,7 +86,7 @@
                                 <td><img th:src="@{../user/images/__${article.getImage()}__}" alt="" style="max-width: 50%;"></td>
                                 <td>
                                     <a th:href="@{/admin/articles/edit(id = ${article.articleId})}"><button class="btn btn-primary">Update</button> </a>
-                                    <a th:href="@{/admin/articles/confirm-delete(id = ${article.articleId})}"><button class="btn btn-danger">Delete</button> </a>
+                                    <a th:href="@{/admin/articles/confirm-delete/{id}(id = ${article.articleId})}"><button class="btn btn-danger">Delete</button> </a>
                                 </td>
                             </tr>
                             </tbody>

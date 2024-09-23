@@ -58,6 +58,11 @@ public class JdbcCartRepository implements CartRepository {
     }
 
     @Override
+    public int deleteByIdAndUserId(int id, int userId) {
+        return  jdbcTemplate.update("DELETE FROM  tbl_cart c WHERE c.productId =? and c.userId = ?", id, userId);
+    }
+
+    @Override
     public List<Cart> findAllProductByCart(int userId) {
         return jdbcTemplate.query("SELECT * FROM tbl_cart c INNER JOIN tbl_product p ON c.productId = p.productId WHERE c.userId = ?", new CartRowMapper(), userId);
     }
@@ -77,5 +82,10 @@ public class JdbcCartRepository implements CartRepository {
     @Override
     public List<Cart> findProductsInCart(int userId) {
         return jdbcTemplate.query("SELECT * FROM tbl_cart c INNER JOIN tbl_product p ON c.productId = p.productId WHERE c.userId = ?", new CartRowMapper(), userId);
+    }
+
+    @Override
+    public Cart findByProductIdAndUserId(int productId, int userId) {
+        return  jdbcTemplate.queryForObject("SELECT * FROM tbl_cart c WHERE c.productId = ? and c.userId = ?", new CartRowMapper(), productId, userId);
     }
 }

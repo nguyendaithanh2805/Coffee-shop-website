@@ -26,14 +26,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Articles</h1>
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a>
                             </li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
+                            <li class="breadcrumb-item active">Articles</li>
                         </ol>
                     </div>
                     <!-- /.col -->
@@ -56,7 +56,7 @@
                         </tr>
                         <tr>
                             <td><label for="description">Description : </label></td>
-                            <td><input type="text" id="description" name="description" th:field="*{description}"></td>
+                            <td><textarea type="text" id="description" rows="4" cols="50" placeholder="Input Description..." name="description" th:field="*{description}"></textarea></td>
                         </tr>
                         <tr>
                             <td><label for="imageFile">Article Image:</label></td>
