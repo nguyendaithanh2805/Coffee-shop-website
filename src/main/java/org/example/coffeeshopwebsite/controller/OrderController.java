@@ -93,6 +93,9 @@ public class OrderController {
         User user = userService.getUserIdAdmin();
         productService.updateProduct(product, user);
     }
+//    private void IncreaseProductQuantity(Order order) {
+//        orderService.findProductByOrderIdFromOrderDetail()
+//    }
 
     private void DeleteCart(int productId) {
         cartService.deleteProductInCartById(productId);

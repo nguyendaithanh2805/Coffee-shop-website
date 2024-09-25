@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,7 +73,9 @@ public class JdbcOrderRepository implements OrderRepository {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
+        jdbcTemplate.update("DELETE FROM tbl_order_detail WHERE orderId = ?", id);
         jdbcTemplate.update("DELETE FROM tbl_order WHERE orderId = ?", id);
     }
 }

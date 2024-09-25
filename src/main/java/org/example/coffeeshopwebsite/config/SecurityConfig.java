@@ -42,7 +42,7 @@ public class SecurityConfig{
                         .requestMatchers("/login/**", "/register/**", "/admin/css/**",
                                 "/admin/js/**", "/admin/images/**", "/user/css/**",
                                 "/user/js/**", "/user/images/**", "/home",
-                                "/menu", "/about", "/blog", "/contact", "/access-denied").permitAll()
+                                "/menu", "/about", "/blog", "/contact", "/access-denied", "/").permitAll()
                         .requestMatchers("/carts/add", "/carts/**", "/orders/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/admin", "/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
