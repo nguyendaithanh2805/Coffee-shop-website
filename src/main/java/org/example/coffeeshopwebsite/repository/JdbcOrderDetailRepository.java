@@ -48,4 +48,11 @@ public class JdbcOrderDetailRepository implements OrderDetailRepository {
     public int deleteById(int id) {
         return 0;
     }
+
+    @Override
+    public List<OrderDetail> findByOrderId(int orderId) {
+        return jdbcTemplate.query("SELECT * FROM tbl_order_detail od \n" +
+                "INNER JOIN tbl_product p ON od.productId = p.productId\n" +
+                "INNER JOIN tbl_order o On od.orderId = o.orderId WHERE o.orderId = ?", new OrderDetailRowMapper(), orderId);
+    }
 }

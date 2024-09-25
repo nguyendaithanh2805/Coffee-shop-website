@@ -83,6 +83,7 @@ public class OrderController {
     // DELETE
     @GetMapping("/admin/orders/delete")
     public String deleteProduct(@RequestParam int id) {
+        IncreaseProductQuantity(id);
         orderService.deleteOrderById(id);
         return "redirect:/admin/orders";
     }
@@ -92,6 +93,14 @@ public class OrderController {
         product.setQuantity(product.getQuantity() - cart.getCartQuantity());
         User user = userService.getUserIdAdmin();
         productService.updateProduct(product, user);
+    }
+    private void IncreaseProductQuantity(int orderId) {
+        List<OrderDetail> orderDetails = orderDetailService.findByOrderId(orderId);
+        for(OrderDetail orderDetail : orderDetails) {
+            Product product = productService.findProductById(orderDetail.getProductId());
+            int quantity = orderDetail.getOrderQuantity();
+            productService.updateProductQuantity(product, quantity);
+        }
     }
 
     private void DeleteCart(int productId) {

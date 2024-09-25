@@ -25,4 +25,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public void saveOrderDetail(OrderDetail orderDetail) {
         orderDetailRepository.save(orderDetail);
     }
+
+    @Override
+    public List<OrderDetail> findByOrderId(int orderId) {
+        return orderDetailRepository.findByOrderId(orderId);
+    }
 }
