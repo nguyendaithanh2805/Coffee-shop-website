@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{admin/fragments/head.html :: head}">
+    <title></title>
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <h1>Bạn không có quyền truy cập trang này</h1>
+            <p>Vui lòng liên hệ với quản trị viên nếu bạn nghĩ đây là một lỗi.</p>
+            <a th:href="@{/home}">Trở về trang chủ</a>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
+
+<div th:replace="~{admin/fragments/script.html :: scripts}"></div>
+</body>
+</html>

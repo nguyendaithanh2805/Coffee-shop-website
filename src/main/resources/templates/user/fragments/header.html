@@ -1,0 +1,29 @@
+<!-- header section starts -->
+<header class="header" th:fragment="header">
+
+    <a href="#" class="logo"> <i class="fas fa-mug-hot"></i> coffee</a>
+
+    <nav class="navbar">
+        <a th:href="@{/home}" class="active">home</a>
+        <a th:href="@{/menu}">menu</a>
+        <a th:href="@{/blog}">blogs</a>
+    </nav>
+
+    <div class="icons">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-search" id="search-btn"></div>
+        <a th:href="@{/carts}"><div class="fas fa-shopping-cart" id="cart-btn"></div></a>
+        <a th:href="@{/admin/login}" sec:authorize="!isAuthenticated()">
+            <div class="fas fa-user" id="login-btn"></div>
+        </a>
+        <a th:href="@{/logout}" sec:authorize="isAuthenticated()">
+            <div class="fas fa-sign-out-alt" id="logout-btn"></div>
+        </a>
+    </div>
+
+    <form action="" class="search-form">
+        <label for="search-box"></label><input type="search" name="" id="search-box" placeholder="search here..">
+        <label class="fas fa-search"></label>
+    </form>
+</header>
+<!-- header section ends -->

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{user/fragments/head.html :: head}">
+    <title></title>
+</head>
+<style>
+    .quantity-btn {
+        height: 25px;
+        width: 25px;
+    }
+    .quantity-controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .quantity-input {
+        width: 50px;
+        height: 25px;
+        text-align: center;
+    }
+    .table-striped {
+        font-size: 20px;
+    }
+    th, td{
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+    th {
+        text-align: center;
+        background-color: #f2f2f2;
+    }
+    td {
+        text-align: center;
+    }
+
+</style>
+<body>
+
+<!-- header section starts -->
+
+<header th:replace="~{user/fragments/header.html :: header}"></header>
+
+<!-- header section ends -->
+
+<!-- sub heading -->
+
+<div class="sub-heading">
+    <h1>our menu</h1>
+</div>
+
+<!-- end -->
+
+<!-- menu section starts -->
+
+<section class="menu" style="
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+">
+    <div class="box-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div th:if="${#lists.isEmpty(cartItems)}" id="emptyCartMessage" style="display: flex;justify-content: center;align-items: center;">
+                        <a th:href="@{/menu}" class="btn btn-primary">Go to menu</a>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6" th:if="${!#lists.isEmpty(cartItems)}">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Selling price</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">Total bill</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="cartItem : ${cartItems}">
+                                <td th:text="${cartItem.getProduct().getName()}"></td>
+                                <td>
+                                    <img th:src="@{../user/images/__${cartItem.getProduct().getImage()}__}" alt="" style="max-width: 50px;">
+                                </td>
+                                <td th:text="${#numbers.formatDecimal(cartItem.getProduct().getSellingPrice(), 1, 'COMMA', 2, 'POINT')} + '$'"></td>
+                                <td>
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                                        <label>
+                                            <input type="text" class="quantity-input" th:value="${cartItem.getCartQuantity()}" min="1"
+                                                   th:data-max="${cartItem.getProduct().getQuantity()}" th:data-price="${cartItem.getProduct().getSellingPrice()}" oninput="updateTotalBill(this)">
+                                        </label>
+                                        <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+                                    </div>
+                                </td>
+                                <td th:text="${#numbers.formatDecimal(cartItem.getTotalBill(), 1, 'COMMA', 2, 'POINT')} + '$'" class="total-bill" ></td>
+                                <td>
+                                    <a th:href="@{/carts/delete/{id}(id=${cartItem.productId})}">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a th:href="@{/orders/checkout}">
+                            <button class="btn btn-success">Checkout</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- menu section ends -->
+
+<!-- footer section starts -->
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3><i class="fas fa-mug-hot"></i> coffee</h3>
+            <a href="#" class="links"> <i class="fas fa-phone"></i> +123-456-7890</a>
+            <a href="#" class="links"> <i class="fas fa-envelope"></i> ninjashub4@gmail.com</a>
+            <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i> california, USA 43215</a>
+        </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#">my order</a>
+            <a href="#">my favorite</a>
+            <a href="#">my wishlist</a>
+            <a href="#">my account</a>
+            <a href="#">terms or use</a>
+        </div>
+
+        <div class="box">
+            <h3>useful links</h3>
+            <a href="#">menu</a>
+            <a href="#">location</a>
+            <a href="#">events & promotions</a>
+            <a href="#">FAQs</a>
+            <a href="#">contact us</a>
+        </div>
+
+        <div class="box">
+            <h3>newsletter</h3>
+            <p>subscribe for latest update</p>
+            <form action="">
+                <label>
+                    <input type="email" placeholder="enter your email">
+                </label>
+                <input type="submit" value="subscribe" class="btn">
+            </form>
+            <img th:src="@{../user/images/payment.png}" class="payment" alt="">
+        </div>
+
+    </div>
+
+    <div class="credit"> created by <span>ninjashub</span> | all rights reserved! </div>
+
+</section>
+
+<!-- footer section ends -->
+
+<script th:src="@{../user/js/script.js}"></script>
+<script>
+    function incrementQuantity(button) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        const max = input.getAttribute('data-max');
+        if (parseInt(input.value) < parseInt(max)) {
+            input.value = parseInt(input.value) + 1;
+            updateTotalBill(input);
+        }
+    }
+
+    function decrementQuantity(button) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+            updateTotalBill(input);
+        }
+    }
+    function updateTotalBill(input) {
+        // lay gia cua san pham
+        const price = parseFloat(input.getAttribute('data-price'));
+        const quantity = parseInt(input.value);
+        // tim o chua tong tien
+        const totalBillCell = input.closest('tr').querySelector('.total-bill');
+        const totalBill = price * quantity;
+        // Cap nhat noi dung va dinh dang tien
+        totalBillCell.textContent = totalBill.toFixed(2) + '$';
+    }
+
+    let debounceTimeout;
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                const max = parseInt(input.getAttribute('data-max'));
+                let value = parseInt(input.value);
+
+                if (isNaN(value) || value < 1) {
+                    input.value = 1;
+                } else if (value > max) {
+                    input.value = max;
+                }
+                updateTotalBill(input);
+            }, 300);
+        });
+    });
+</script>
+</body>
+</html>

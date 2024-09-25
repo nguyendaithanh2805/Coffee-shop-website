@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{user/fragments/head.html :: head}">
+    <title></title>
+</head>
+<style>
+    .quantity-btn {
+        height: 25px;
+        width: 25px;
+    }
+    .quantity-controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .quantity-input {
+        width: 50px;
+        height: 25px;
+        text-align: center;
+    }
+    .icons {
+        margin-top: 5px;
+    }
+</style>
+<body>
+
+<!-- header section starts -->
+
+<header th:replace="~{user/fragments/header.html :: header}"></header>
+
+<!-- header section ends -->
+
+<!-- sub heading -->
+
+<div class="sub-heading">
+    <h1>our menu</h1>
+</div>
+
+<!-- end -->
+
+<!-- menu section starts -->
+
+<section class="menu">
+
+    <div class="box-container">
+
+        <div class="box" th:each="product : ${products}">
+            <div class="image">
+                <img th:src="@{../user/images/__${product.getImage()}__}" alt="">
+            </div>
+            <div class="content">
+                <h3 th:text="${product.getName()}"></h3>
+                <h5 style="font-size: 20px"> Quantity: <span style="font-size: 20px" th:text="${product.getQuantity()}"></span> </h5>
+                <div class="flex" style=" display: flex; justify-content: center; flex-direction: row-reverse; align-items: baseline">
+                    <div class="price" style="text-decoration: line-through; font-size: 15px; margin-left: 5px" th:if="${product.getDiscount() != 0.0}" th:text="${product.getSellingPrice() + product.getDiscount()}"></div>
+                    <div class="price" style="color: red" th:text="${product.getSellingPrice()}"></div>
+                </div>
+            </div>
+            <div class="icons">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                        <label>
+                            <input type="text" class="quantity-input" value="1" min="1" th:data-max="${product.getQuantity()}">
+                        </label>
+                        <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+                    </div>
+                <div class="icons" th:if="${product.getQuantity() > 0}">
+                    <a class="fas fa-shopping-cart" th:data-id="${product.getProductId()}" onclick="addToCart(this)"></a>
+                </div>
+                <div class="icons" th:if="${product.getQuantity() <= 0}">
+                    <p style="font-size: 20px; color: red;">Sold out</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- menu section ends -->
+
+<!-- footer section starts -->
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3><i class="fas fa-mug-hot"></i> coffee</h3>
+            <a href="#" class="links"> <i class="fas fa-phone"></i> +123-456-7890</a>
+            <a href="#" class="links"> <i class="fas fa-envelope"></i> ninjashub4@gmail.com</a>
+            <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i> california, USA 43215</a>
+        </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#">my order</a>
+            <a href="#">my favorite</a>
+            <a href="#">my wishlist</a>
+            <a href="#">my account</a>
+            <a href="#">terms or use</a>
+        </div>
+
+        <div class="box">
+            <h3>useful links</h3>
+            <a href="#">menu</a>
+            <a href="#">location</a>
+            <a href="#">events & promotions</a>
+            <a href="#">FAQs</a>
+            <a href="#">contact us</a>
+        </div>
+
+        <div class="box">
+            <h3>newsletter</h3>
+            <p>subscribe for latest update</p>
+            <form action="">
+                <label>
+                    <input type="email" placeholder="enter your email">
+                </label>
+                <input type="submit" value="subscribe" class="btn">
+            </form>
+            <img th:src="@{../user/images/payment.png}" class="payment" alt="">
+        </div>
+
+    </div>
+
+    <div class="credit"> created by <span>ninjashub</span> | all rights reserved! </div>
+
+</section>
+
+<!-- footer section ends -->
+
+<script th:src="@{../user/js/script.js}"></script>
+<script>
+    function addToCart(element) {
+        const productId = element.getAttribute('data-id');
+        const quantityInput = element.closest('.box').querySelector('.quantity-input');
+        const quantity = quantityInput.value;
+
+        // Kiem tra nguoi dung da dang nhap hay chua
+        fetch('/carts', {
+            credentials: 'same-origin' // Gui kem cookie
+        })
+            .then(response => {
+                if (response.redirected && response.url.includes('/login')) {
+                    window.location.href = '/admin/login';
+                } else {
+                    // Neu da dang nhap thi redirect den API ben duoi
+                    fetch('/carts/add?productId=' + productId + '&quantity=' + quantity, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '/menu';
+                            } else {
+                                alert('Failed to add product to cart');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    // Xu ly tang, giam button
+    function incrementQuantity(button) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        const max = input.getAttribute('data-max');
+        if (parseInt(input.value) < parseInt(max)) {
+            input.value = parseInt(input.value) + 1;
+        }
+    }
+
+    function decrementQuantity(button) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+
+    let debounceTimeout;
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                const max = parseInt(input.getAttribute('data-max'));
+                let value = parseInt(input.value);
+
+                if (isNaN(value) || value < 1) {
+                    input.value = 1;
+                } else if (value > max) {
+                    input.value = max;
+                }
+            }, 300);
+        });
+    });
+</script>
+</body>
+</html>
