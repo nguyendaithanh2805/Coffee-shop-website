@@ -2,8 +2,10 @@ package org.example.coffeeshopwebsite.controller;
 
 import org.example.coffeeshopwebsite.model.Article;
 import org.example.coffeeshopwebsite.model.Product;
+import org.example.coffeeshopwebsite.model.User;
 import org.example.coffeeshopwebsite.service.ArticleService;
 import org.example.coffeeshopwebsite.service.FileUploadService;
+import org.example.coffeeshopwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +20,13 @@ import java.util.List;
 public class ArticleController {
     private final ArticleService articleService;
     private final FileUploadService fileUploadService;
+    private final UserService userService;
 
     @Autowired
-    public ArticleController(ArticleService articleService, FileUploadService fileUploadService) {
+    public ArticleController(ArticleService articleService, FileUploadService fileUploadService, UserService userService) {
         this.articleService = articleService;
         this.fileUploadService = fileUploadService;
+        this.userService = userService;
     }
 
     // CREATE
@@ -72,7 +76,8 @@ public class ArticleController {
             article.setStatus(false);
         else
             article.setStatus(status);
-        articleService.updateArticle(article);
+        User user = userService.getCurrentUser();
+        articleService.updateArticle(article, user);
         return "redirect:/admin/articles";
     }
 
@@ -80,7 +85,7 @@ public class ArticleController {
     public String updateArticleStatus(@RequestParam int id, @RequestParam(name = "status", required = false) Boolean status) {
         Article article = articleService.getArticleById(id);
         article.setStatus(status);
-        articleService.updateArticle(article);
+        articleService.updateArticle(article, userService.getCurrentUser());
         return "redirect:/admin/articles";
     }
     // DELETE
