@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -53,5 +54,13 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(int id) {
         productRepository.deleteById(id);
         logger.info("Delete product successfully");
+    }
+
+    @Override
+    @Transactional
+    public void updateProductQuantity(Product product, int quantity) {
+        product.setQuantity(product.getQuantity() + quantity);
+        productRepository.update(product);
+        logger.info("Update product quantity successfully");
     }
 }
