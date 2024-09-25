@@ -66,7 +66,11 @@ public class CategoryController {
 
     @GetMapping("/delete")
     public String deleteCategory(@RequestParam("id") int id) {
-        categoryService.deleteCategoryById(id);
-        return "redirect:/admin/categories";
+        try{
+            categoryService.deleteCategoryById(id);
+            return "redirect:/admin/categories";
+        } catch (RuntimeException e) {
+        return "admin/error";
+        }
     }
 }
