@@ -42,7 +42,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateArticle(Article article) {
+    public void updateArticle(Article article, User user) {
+        article.setUserId(user.getUserId());
         articleRepository.update(article);
     }
 }
