@@ -1,6 +1,7 @@
 package org.example.coffeeshopwebsite.service;
 
 import org.example.coffeeshopwebsite.model.Article;
+import org.example.coffeeshopwebsite.model.User;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface ArticleService {
 
     void deleteArticleById(int id);
 
-    void updateArticle(Article article);
+    void updateArticle(Article article, User user);
 }
